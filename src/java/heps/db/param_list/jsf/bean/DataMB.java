@@ -13,26 +13,51 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.Visibility;
+import static org.primefaces.model.Visibility.VISIBLE;
 
 /**
  *
  * @author Lvhuihui
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class DataMB implements Serializable {
 
-  //  @EJB
-  //  private heps.db.param_list.session.DataFacade ejbFacade;
-    private DataDispFacade ejbFacade=new DataDispFacade();
-    private List<DataDisp> dataDispList=null;
-    public DataMB() {       
+    //  @EJB
+    //  private heps.db.param_list.session.DataFacade ejbFacade;
+    private DataDispFacade ejbFacade;
+    private List<DataDisp> dataDispList;
+    private List<Boolean> stateList;
+
+    public DataMB() {
+        ejbFacade = new DataDispFacade();
     }
-    public List<DataDisp> getDataDispList(){
-      dataDispList=ejbFacade.getDataDispList();
-      return dataDispList;
+
+    @PostConstruct
+    public void init() {
+        dataDispList = null;
+        stateList = Arrays.asList(false, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
     }
+
+    public List<DataDisp> getDataDispList() {
+        dataDispList = ejbFacade.getDataDispList();
+        return dataDispList;
+    }
+
+    public List<Boolean> getStateList() {
+        return this.stateList;
+    }
+
+    public void onToggle(ToggleEvent e) {
+        stateList.set((int) e.getData(), e.getVisibility() == e.getVisibility().VISIBLE);
+    }
+
 }

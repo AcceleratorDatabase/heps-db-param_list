@@ -59,7 +59,7 @@ public class DataFacade {
         Data data = new Data();
         if (object.getClass().getName().equals("heps.db.param_list.entity.Data") ) {
             data =(Data) object.getClass().cast(object);
-            System.out.println("!!!!!!!!!!!!!"+data);
+           // System.out.println("!!!!!!!!!!!!!"+data);
         }
         return data;
     }

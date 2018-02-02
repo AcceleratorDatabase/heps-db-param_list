@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="param_listPU" transaction-type="RESOURCE_LOCAL">
-    <jta-data-source>jdbc/param</jta-data-source>
+  <persistence-unit name="param_listPU" transaction-type="JTA">
+    <jta-data-source>jdbc/mysql-resource</jta-data-source>
     <class>heps.db.param_list.entity.Attribute</class>
     <class>heps.db.param_list.entity.Data</class>
     <class>heps.db.param_list.entity.Devicetype</class>
@@ -16,7 +16,7 @@
     <class>heps.db.param_list.entity.Version</class>
     <class>heps.db.param_list.jsf.entity.DataDisp</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
-      <properties>
+    <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/parameter_list"/>
       <property name="javax.persistence.jdbc.password" value="123456"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

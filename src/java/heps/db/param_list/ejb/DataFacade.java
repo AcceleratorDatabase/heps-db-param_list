@@ -12,6 +12,7 @@ import heps.db.param_list.entity.Parameter;
 import heps.db.param_list.entity.Subsystem;
 import heps.db.param_list.entity.Team;
 import heps.db.param_list.entity.Version;
+import heps.db.param_list.tools.EmProvider;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,11 +31,12 @@ import javax.persistence.Query;
 @Stateless
 public class DataFacade {
 
-    @PersistenceUnit
-    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("param_listPU");
-    static EntityManager em = emf.createEntityManager();
+    /*@PersistenceUnit
+    public static EntityManagerFactory emf = Persistence.createEntityManagerFactory("param_listPU");
+    public static EntityManager em = emf.createEntityManager();
 
-    @PersistenceContext
+    @PersistenceContext*/
+    public static EntityManager em=EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
 
     public void setData(String value, Team team, heps.db.param_list.entity.System system, Subsystem subsystem, Devicetype devicetype, Date date_modified, Attribute attribute,
              Parameter parameter, String comment, String status, Version version) {
@@ -55,13 +57,5 @@ public class DataFacade {
         em.getTransaction().commit();
     }
 
-    public Data setData(Object object) {
-        Data data = new Data();
-        if (object.getClass().getName().equals("heps.db.param_list.entity.Data") ) {
-            data =(Data) object.getClass().cast(object);
-           // System.out.println("!!!!!!!!!!!!!"+data);
-        }
-        return data;
-    }
-
+   
 }

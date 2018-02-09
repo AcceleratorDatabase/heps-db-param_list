@@ -5,9 +5,10 @@
  */
 package heps.db.param_list.ejb;
 
-import static heps.db.param_list.ejb.UnitFacade.em;
+
 import heps.db.param_list.entity.Reference;
 import heps.db.param_list.entity.Unit;
+import heps.db.param_list.tools.EmProvider;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,13 +23,14 @@ import javax.persistence.Query;
  * @author Lvhuihui
  */
 @Stateless
-public class ReferenceFacade {
+public class ReferenceFacade{
 
-    @PersistenceUnit
+    /*@PersistenceUnit
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("param_listPU");
     static EntityManager em = emf.createEntityManager();
 
-    @PersistenceContext
+    @PersistenceContext*/
+    public static EntityManager em=EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
 
     public void setReference(String title, String author, String publication, String url, String keywords) {
         Reference r = new Reference();

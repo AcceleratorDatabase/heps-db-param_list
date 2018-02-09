@@ -5,10 +5,11 @@
  */
 package heps.db.param_list.ejb;
 
-import static heps.db.param_list.ejb.ReferenceFacade.em;
+
 import heps.db.param_list.entity.Parameter;
 import heps.db.param_list.entity.Reference;
 import heps.db.param_list.entity.Unit;
+import heps.db.param_list.tools.EmProvider;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -27,13 +28,14 @@ import javax.persistence.Query;
  * @author Lvhuihui
  */
 @Stateless
-public class ParameterFacade {
+public class ParameterFacade{
 
-    @PersistenceUnit
+    /*@PersistenceUnit
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("param_listPU");
     static EntityManager em = emf.createEntityManager();
 
-    @PersistenceContext
+    @PersistenceContext*/
+    public static EntityManager em=EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
 
     public void setParameter(String name, Unit unit, String definition, Date date_modified, Reference reference) {
         Parameter p = new Parameter();

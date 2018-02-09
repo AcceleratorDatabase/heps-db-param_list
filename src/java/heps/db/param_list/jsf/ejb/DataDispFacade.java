@@ -20,6 +20,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import heps.db.param_list.ejb.DataFacade;
+import heps.db.param_list.servletContextListener.EMFServletContextListener;
+import heps.db.param_list.tools.EmProvider;
+
 
 /**
  *
@@ -28,27 +31,26 @@ import heps.db.param_list.ejb.DataFacade;
 @Stateless
 public class DataDispFacade {
 
-    @PersistenceUnit
-    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("param_listPU");
-    static EntityManager em = emf.createEntityManager();
+    //@PersistenceUnit
+   // public static EntityManagerFactory emf = Persistence.createEntityManagerFactory("param_listPU");
+ //   public static EntityManager em = emf.createEntityManager();
 
-    @PersistenceContext
+    //@PersistenceContext
+    public static EntityManager em=EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
 
     public List<DataDisp> getDataDispList() {
+        //System.out.println(em.getEntityManagerFactory().getProperties());
         Query q;
         q = em.createNamedQuery("Data.findAll");
         List dataList = q.getResultList();
         List<DataDisp> dispList = new ArrayList();
-       // System.out.println("++++"+dataList.size());
+        System.out.println("++++"+dataList.size());
         if (dataList.isEmpty() || dataList == null) {
             return null;
         } else {
             Iterator<Data> it = dataList.iterator();
             while (it.hasNext()) {
-                Object object=it.next();
-               // System.out.println("*********"+object);
-                Data data = new DataFacade().setData(object);  
-              //  System.out.println("---------"+data.getClass().getName());
+                Data data=it.next();
                 DataDisp dp = new DataDisp();              
                 if (data.getSystemid() != null) {
                     dp.setSystem(data.getSystemid().getName());

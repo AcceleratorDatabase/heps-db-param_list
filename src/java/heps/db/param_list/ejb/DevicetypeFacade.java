@@ -6,6 +6,7 @@
 package heps.db.param_list.ejb;
 
 import heps.db.param_list.entity.Devicetype;
+import heps.db.param_list.tools.EmProvider;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,11 +23,12 @@ import javax.persistence.Query;
 @Stateless
 public class DevicetypeFacade {
 
-    @PersistenceUnit
+   /* @PersistenceUnit
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("param_listPU");
     static EntityManager em = emf.createEntityManager();
 
-    @PersistenceContext
+    @PersistenceContext*/
+    public static EntityManager em=EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
     
        public void setDevicetype(String name) {
         Devicetype d=new Devicetype();

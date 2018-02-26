@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -28,14 +26,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Lvhuihui
  */
 @Entity
-@Table(name = "version")
+@Table(name = "accelerator")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Version.findAll", query = "SELECT v FROM Version v")
-    , @NamedQuery(name = "Version.findById", query = "SELECT v FROM Version v WHERE v.id = :id")
-    , @NamedQuery(name = "Version.findByName", query = "SELECT v FROM Version v WHERE v.name = :name")
-    , @NamedQuery(name = "Version.findByNumber", query = "SELECT v FROM Version v WHERE v.number = :number")})
-public class Version implements Serializable {
+    @NamedQuery(name = "Accelerator.findAll", query = "SELECT a FROM Accelerator a")
+    , @NamedQuery(name = "Accelerator.findById", query = "SELECT a FROM Accelerator a WHERE a.id = :id")
+    , @NamedQuery(name = "Accelerator.findByName", query = "SELECT a FROM Accelerator a WHERE a.name = :name")})
+public class Accelerator implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,18 +43,13 @@ public class Version implements Serializable {
     @Size(max = 45)
     @Column(name = "Name")
     private String name;
-    @Column(name = "Number")
-    private Integer number;
-    @OneToMany(mappedBy = "versionid")
-    private List<Data> dataList;
-    @JoinColumn(name = "acclerator_id", referencedColumnName = "Id")
-    @ManyToOne
-    private Accelerator accleratorId;
+    @OneToMany(mappedBy = "accleratorId")
+    private List<Version> versionList;
 
-    public Version() {
+    public Accelerator() {
     }
 
-    public Version(Integer id) {
+    public Accelerator(Integer id) {
         this.id = id;
     }
 
@@ -77,29 +69,13 @@ public class Version implements Serializable {
         this.name = name;
     }
 
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
     @XmlTransient
-    public List<Data> getDataList() {
-        return dataList;
+    public List<Version> getVersionList() {
+        return versionList;
     }
 
-    public void setDataList(List<Data> dataList) {
-        this.dataList = dataList;
-    }
-
-    public Accelerator getAccleratorId() {
-        return accleratorId;
-    }
-
-    public void setAccleratorId(Accelerator accleratorId) {
-        this.accleratorId = accleratorId;
+    public void setVersionList(List<Version> versionList) {
+        this.versionList = versionList;
     }
 
     @Override
@@ -112,10 +88,10 @@ public class Version implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Version)) {
+        if (!(object instanceof Accelerator)) {
             return false;
         }
-        Version other = (Version) object;
+        Accelerator other = (Accelerator) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -124,7 +100,7 @@ public class Version implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Version[ id=" + id + " ]";
+        return "heps.db.param_list.entity.Accelerator[ id=" + id + " ]";
     }
     
 }

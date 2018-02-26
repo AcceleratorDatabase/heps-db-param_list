@@ -37,12 +37,12 @@ public class ReSystemSubsystem implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @JoinColumn(name = "Subsystem_id", referencedColumnName = "Id")
+    @JoinColumn(name = "subsystem_id", referencedColumnName = "Id")
     @ManyToOne
-    private Subsystem subsystemid;
-    @JoinColumn(name = "System_id", referencedColumnName = "Id")
+    private Subsystem subsystemId;
+    @JoinColumn(name = "system_id", referencedColumnName = "Id")
     @ManyToOne
-    private System systemid;
+    private System systemId;
 
     public ReSystemSubsystem() {
     }
@@ -59,20 +59,20 @@ public class ReSystemSubsystem implements Serializable {
         this.id = id;
     }
 
-    public Subsystem getSubsystemid() {
-        return subsystemid;
+    public Subsystem getSubsystemId() {
+        return subsystemId;
     }
 
-    public void setSubsystemid(Subsystem subsystemid) {
-        this.subsystemid = subsystemid;
+    public void setSubsystemId(Subsystem subsystemId) {
+        this.subsystemId = subsystemId;
     }
 
-    public System getSystemid() {
-        return systemid;
+    public System getSystemId() {
+        return systemId;
     }
 
-    public void setSystemid(System systemid) {
-        this.systemid = systemid;
+    public void setSystemId(System systemId) {
+        this.systemId = systemId;
     }
 
     @Override

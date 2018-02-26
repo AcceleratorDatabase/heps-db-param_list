@@ -41,7 +41,7 @@ public class Devicetype implements Serializable {
     @Column(name = "Id")
     private Integer id;
     @Size(max = 45)
-    @Column(name = "name")
+    @Column(name = "Name")
     private String name;
     @OneToMany(mappedBy = "devicetypeId")
     private List<Data> dataList;

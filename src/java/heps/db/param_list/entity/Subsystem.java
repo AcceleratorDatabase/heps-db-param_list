@@ -48,7 +48,7 @@ public class Subsystem implements Serializable {
     private String name;
     @OneToMany(mappedBy = "subsystemid")
     private List<Data> dataList;
-    @OneToMany(mappedBy = "subsystemid")
+    @OneToMany(mappedBy = "subsystemId")
     private List<ReSystemSubsystem> reSystemSubsystemList;
 
     public Subsystem() {

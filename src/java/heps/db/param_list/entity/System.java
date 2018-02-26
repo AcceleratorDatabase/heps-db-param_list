@@ -17,7 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -49,7 +48,7 @@ public class System implements Serializable {
     private String name;
     @OneToMany(mappedBy = "systemid")
     private List<Data> dataList;
-    @OneToMany(mappedBy = "systemid")
+    @OneToMany(mappedBy = "systemId")
     private List<ReSystemSubsystem> reSystemSubsystemList;
 
     public System() {
@@ -59,7 +58,6 @@ public class System implements Serializable {
         this.id = id;
     }
 
-
     public Integer getId() {
         return id;
     }
@@ -67,7 +65,6 @@ public class System implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-
 
     public Integer getParentid() {
         return parentid;

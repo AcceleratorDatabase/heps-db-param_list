@@ -7,7 +7,9 @@ package heps.db.param_list.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,11 +19,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -78,6 +82,8 @@ public class Data implements Serializable {
     @JoinColumn(name = "Version_id", referencedColumnName = "Id")
     @ManyToOne
     private Version versionid;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataId")
+    private List<HistoryData> historyDataList;
 
     public Data() {
     }
@@ -180,6 +186,15 @@ public class Data implements Serializable {
 
     public void setVersionid(Version versionid) {
         this.versionid = versionid;
+    }
+
+    @XmlTransient
+    public List<HistoryData> getHistoryDataList() {
+        return historyDataList;
+    }
+
+    public void setHistoryDataList(List<HistoryData> historyDataList) {
+        this.historyDataList = historyDataList;
     }
 
     @Override

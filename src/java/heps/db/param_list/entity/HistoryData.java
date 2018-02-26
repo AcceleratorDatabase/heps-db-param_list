@@ -6,7 +6,7 @@
 package heps.db.param_list.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,25 +17,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Lvhuihui
  */
 @Entity
-@Table(name = "version")
+@Table(name = "history_data")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Version.findAll", query = "SELECT v FROM Version v")
-    , @NamedQuery(name = "Version.findById", query = "SELECT v FROM Version v WHERE v.id = :id")
-    , @NamedQuery(name = "Version.findByName", query = "SELECT v FROM Version v WHERE v.name = :name")
-    , @NamedQuery(name = "Version.findByNumber", query = "SELECT v FROM Version v WHERE v.number = :number")})
-public class Version implements Serializable {
+    @NamedQuery(name = "HistoryData.findAll", query = "SELECT h FROM HistoryData h")
+    , @NamedQuery(name = "HistoryData.findById", query = "SELECT h FROM HistoryData h WHERE h.id = :id")
+    , @NamedQuery(name = "HistoryData.findByValue", query = "SELECT h FROM HistoryData h WHERE h.value = :value")
+    , @NamedQuery(name = "HistoryData.findByDateModified", query = "SELECT h FROM HistoryData h WHERE h.dateModified = :dateModified")})
+public class HistoryData implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,21 +43,20 @@ public class Version implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @Size(max = 45)
-    @Column(name = "Name")
-    private String name;
-    @Column(name = "Number")
-    private Integer number;
-    @OneToMany(mappedBy = "versionid")
-    private List<Data> dataList;
-    @JoinColumn(name = "acclerator_id", referencedColumnName = "Id")
-    @ManyToOne
-    private Accelerator accleratorId;
+    @Size(max = 200)
+    @Column(name = "value")
+    private String value;
+    @Column(name = "date_modified")
+    @Temporal(TemporalType.DATE)
+    private Date dateModified;
+    @JoinColumn(name = "data_id", referencedColumnName = "Id")
+    @ManyToOne(optional = false)
+    private Data dataId;
 
-    public Version() {
+    public HistoryData() {
     }
 
-    public Version(Integer id) {
+    public HistoryData(Integer id) {
         this.id = id;
     }
 
@@ -69,37 +68,28 @@ public class Version implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Date getDateModified() {
+        return dateModified;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
     }
 
-    @XmlTransient
-    public List<Data> getDataList() {
-        return dataList;
+    public Data getDataId() {
+        return dataId;
     }
 
-    public void setDataList(List<Data> dataList) {
-        this.dataList = dataList;
-    }
-
-    public Accelerator getAccleratorId() {
-        return accleratorId;
-    }
-
-    public void setAccleratorId(Accelerator accleratorId) {
-        this.accleratorId = accleratorId;
+    public void setDataId(Data dataId) {
+        this.dataId = dataId;
     }
 
     @Override
@@ -112,10 +102,10 @@ public class Version implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Version)) {
+        if (!(object instanceof HistoryData)) {
             return false;
         }
-        Version other = (Version) object;
+        HistoryData other = (HistoryData) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -124,7 +114,7 @@ public class Version implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Version[ id=" + id + " ]";
+        return "heps.db.param_list.entity.HistoryData[ id=" + id + " ]";
     }
     
 }

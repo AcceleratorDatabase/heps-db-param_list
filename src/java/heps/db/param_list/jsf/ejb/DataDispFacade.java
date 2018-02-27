@@ -20,8 +20,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import heps.db.param_list.ejb.DataFacade;
+import heps.db.param_list.ejb.HistoryDataFacade;
 import heps.db.param_list.servletContextListener.EMFServletContextListener;
 import heps.db.param_list.tools.EmProvider;
+import java.util.Date;
 
 
 /**
@@ -91,5 +93,13 @@ public class DataDispFacade {
             return dispList;
         }
     }
-
+// dataDisp is the modified value
+    public void edit(DataDisp dataDisp,String oldValue){
+       em.getTransaction().begin();    
+       Data data=em.find(Data.class, dataDisp.getId().intValue());      
+       data.setValue(dataDisp.getValue());     
+       em.merge(data);
+       new HistoryDataFacade().setHistoryData(data, oldValue, new Date());   
+       em.getTransaction().commit();
+    }
 }

@@ -19,6 +19,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.Visibility;
 import static org.primefaces.model.Visibility.VISIBLE;
@@ -39,16 +41,17 @@ public class DataMB implements Serializable {
 
     public DataMB() {
         ejbFacade = new DataDispFacade();
+        dataDispList =ejbFacade.getDataDispList();
     }
 
     @PostConstruct
     public void init() {
-        dataDispList = null;
+       // dataDispList = null;     
         stateList = Arrays.asList(false, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
     }
 
     public List<DataDisp> getDataDispList() {
-        dataDispList = ejbFacade.getDataDispList();
+        //dataDispList = ejbFacade.getDataDispList();
         return dataDispList;
     }
 
@@ -58,6 +61,15 @@ public class DataMB implements Serializable {
 
     public void onToggle(ToggleEvent e) {
         stateList.set((int) e.getData(), e.getVisibility() == e.getVisibility().VISIBLE);
+    }
+    
+    public void cellEdit(CellEditEvent e) {
+      // System.out.println(e.getNewValue());
+        DataTable table =(DataTable)e.getSource();
+        DataDisp dataDisp=(DataDisp) table.getRowData();
+        String oldValue=e.getOldValue().toString();
+        //System.out.println("**"+dataDisp.getValue());
+        ejbFacade.edit(dataDisp,oldValue);
     }
 
 }

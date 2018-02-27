@@ -56,6 +56,8 @@ public class DataFacade {
         em.persist(d);
         em.getTransaction().commit();
     }
+    
+
 
    
 }

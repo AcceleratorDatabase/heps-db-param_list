@@ -8,10 +8,13 @@ package heps.db.param_list.ejb;
 import static heps.db.param_list.ejb.DataFacade.em;
 import heps.db.param_list.entity.Data;
 import heps.db.param_list.entity.HistoryData;
+import static heps.db.param_list.jsf.ejb.DataDispFacade.em;
 import heps.db.param_list.tools.EmProvider;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -31,5 +34,11 @@ public class HistoryDataFacade {
         em.getTransaction().begin();
         em.persist(historyData);
         em.getTransaction().commit();
+    }
+    
+    public List<HistoryData> getHistoryData(){     
+        Query q;
+        q = em.createNamedQuery("HistoryData.findAll");
+        return q.getResultList();
     }
 }

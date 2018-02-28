@@ -5,8 +5,11 @@
  */
 package heps.db.param_list.jsf.entity;
 
+import heps.db.param_list.entity.Data;
+import heps.db.param_list.entity.HistoryData;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,7 +43,17 @@ public class DataDisp implements Serializable {
     private String referencePublication;
     private String referenceURL;
     private String keyword;
-            
+    
+    private Data data;       
+    
+      public Data getData() {
+        return data;
+    }
+
+    public void setData( Data data) {
+        this.data = data;
+    }
+
 
     public String getSystem() {
         return system;
@@ -164,6 +177,7 @@ public class DataDisp implements Serializable {
         this.id = id;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;

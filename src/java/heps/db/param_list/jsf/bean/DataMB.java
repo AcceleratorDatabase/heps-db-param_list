@@ -5,6 +5,7 @@
  */
 package heps.db.param_list.jsf.bean;
 
+import static com.sun.javafx.logging.PulseLogger.addMessage;
 import heps.db.param_list.entity.Data;
 import heps.db.param_list.ejb.DataFacade;
 import heps.db.param_list.jsf.ejb.DataDispFacade;
@@ -67,9 +68,11 @@ public class DataMB implements Serializable {
       // System.out.println(e.getNewValue());
         DataTable table =(DataTable)e.getSource();
         DataDisp dataDisp=(DataDisp) table.getRowData();
-        String oldValue=e.getOldValue().toString();
-        //System.out.println("**"+dataDisp.getValue());
+        String oldValue=e.getOldValue().toString();      
         ejbFacade.edit(dataDisp,oldValue);
+        this.dataDispList=ejbFacade.getDataDispList();
     }
+    
+     
 
 }

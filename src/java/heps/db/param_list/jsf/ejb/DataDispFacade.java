@@ -86,7 +86,7 @@ public class DataDispFacade {
                 }
 
                 dp.setValue(data.getValue());
-              
+                dp.setData(data);
                 dp.setId(data.getId().longValue());                           
                 dispList.add(dp);
             }

@@ -5,6 +5,7 @@
  */
 package heps.db.param_list.ejb;
 
+import static heps.db.param_list.ejb.SystemFacade.em;
 import heps.db.param_list.entity.Subsystem;
 import heps.db.param_list.tools.EmProvider;
 import java.util.List;
@@ -47,6 +48,12 @@ public class SubsystemFacade{
         } else {
             return l.get(0);
         }
+    }
+    
+    public List<Subsystem> getAllSubsystem(){
+        Query q;
+        q=em.createNamedQuery("Subsystem.findAll");
+        return q.getResultList();
     }
     
 }

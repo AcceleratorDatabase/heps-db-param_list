@@ -5,6 +5,7 @@
  */
 package heps.db.param_list.jsf.ejb;
 
+import heps.db.param_list.ejb.AttributeFacade;
 import heps.db.param_list.entity.Data;
 import heps.db.param_list.jsf.entity.DataDisp;
 import heps.db.param_list.tools.ConstantClassField;
@@ -20,7 +21,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import heps.db.param_list.ejb.DataFacade;
+import heps.db.param_list.ejb.DevicetypeFacade;
 import heps.db.param_list.ejb.HistoryDataFacade;
+import heps.db.param_list.ejb.ParameterFacade;
+import heps.db.param_list.ejb.SubsystemFacade;
+import heps.db.param_list.ejb.SystemFacade;
+import heps.db.param_list.entity.HistoryData;
+import heps.db.param_list.entity.Parameter;
 import heps.db.param_list.servletContextListener.EMFServletContextListener;
 import heps.db.param_list.tools.EmProvider;
 import java.util.Date;
@@ -94,12 +101,24 @@ public class DataDispFacade {
         }
     }
 // dataDisp is the modified value
-    public void edit(DataDisp dataDisp,String oldValue){
-       em.getTransaction().begin();    
-       Data data=em.find(Data.class, dataDisp.getId().intValue());      
-       data.setValue(dataDisp.getValue());     
-       em.merge(data);
-       new HistoryDataFacade().setHistoryData(data, oldValue, new Date());   
+    public void edit(DataDisp dataDisp,String oldValue){ 
+       Data data=em.find(Data.class, dataDisp.getId().intValue());         
+       data.setValue(dataDisp.getValue()); 
+       new DataFacade().updateData(data);  
+       new HistoryDataFacade().setHistoryData(data, oldValue, new Date());         
+    }
+    
+    public void add(DataDisp dataDisp,Parameter parameter){
+       Data data=new Data();
+       data.setSystemid(new SystemFacade().getSystem(dataDisp.getSystem()));
+       data.setSubsystemid(new SubsystemFacade().getSubsystem(dataDisp.getSubsystem()));
+       data.setDevicetypeId(new DevicetypeFacade().getDevicetype(dataDisp.getDevice()));
+       data.setValue(dataDisp.getValue());
+       data.setDatemodified(new Date());
+       data.setAttributeid(new AttributeFacade().getAttribute(dataDisp.getAttibute()));
+       data.setParameterid(parameter);
+       em.getTransaction().begin();
+       em.persist(data);
        em.getTransaction().commit();
     }
 }

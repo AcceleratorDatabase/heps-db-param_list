@@ -23,15 +23,15 @@ import javax.persistence.Query;
 @Stateless
 public class AttributeFacade {
 
-   /* @PersistenceUnit
+    /* @PersistenceUnit
     static EntityManagerFactory emf = Persistence.createEntityManagerFactory("param_listPU");
     static EntityManager em = emf.createEntityManager();
 
     @PersistenceContext*/
-    public static EntityManager em=EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
+    public static EntityManager em = EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
 
-     public void setAttribute(String name){
-        Attribute a=new Attribute();
+    public void setAttribute(String name) {
+        Attribute a = new Attribute();
         a.setName(name);
         em.getTransaction().begin();
         em.persist(a);
@@ -48,5 +48,11 @@ public class AttributeFacade {
             return l.get(0);
         }
     }
-    
+
+    public List<Attribute> getAllAttribute() {
+        Query q;
+        q = em.createNamedQuery("Attribute.findAll");
+        return q.getResultList();
+    }
+
 }

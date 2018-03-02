@@ -48,4 +48,10 @@ public class DevicetypeFacade {
             return l.get(0);
         }
     }
+    
+    public List<Devicetype> getAllDeviceType(){
+        Query q;
+        q=em.createNamedQuery("Devicetype.findAll");
+        return q.getResultList();
+    }
 }

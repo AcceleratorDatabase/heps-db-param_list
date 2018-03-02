@@ -10,20 +10,22 @@
     <h:body>
         <h:form id="paraForm">
 
-            <p:dataTable id="datas" var="data" value="#{dataMB.dataDispList}" editable="true" editMode="cell"    paginator="true" rows="20" sortMode="multiple" >
+            <p:dataTable id="datas" var="data" value="#{dataMB.dataDispList}" widgetVar="dt" editable="true" editMode="cell"    paginator="true" rows="20" sortMode="multiple" >
                 <f:facet name="header">
                     <h:outputText value=" List of Parameter Values" style="font-size: 24px;color:royalblue"/>  
                     <p:commandButton id="toggler" type="button" value="Choose Columns to View" style="float:left;color: blueviolet" icon="ui-icon-calculator" />
+                    <p:commandButton value="Add a Value" actionListener="#{dataMB.add}" style="float:left;color:blueviolet" oncomplete="PF('addDialog').show()" />
                     <p:columnToggler datasource="datas" trigger="toggler">
                         <p:ajax event="toggle" listener="#{dataMB.onToggle}"/>                 			 
                     </p:columnToggler>
-                </f:facet>                            
-                <p:ajax event="cellEdit" listener="#{dataMB.cellEdit}"/>
-               
-                <p:column style="width:10px">
-                <p:rowToggler> 
 
-                </p:rowToggler>      
+                </f:facet>                            
+                <p:ajax event="cellEdit" listener="#{dataMB.cellEdit}"/>               
+
+                <p:column style="width:10px">
+                    <p:rowToggler> 
+
+                    </p:rowToggler>      
                 </p:column>
 
                 <p:column visible="#{dataMB.stateList[0]}" >
@@ -130,7 +132,7 @@
 
                 <p:rowExpansion id="expandedText">
                     <p:dataTable id="historyValueDatas"  var="historyData" value="#{data.data.historyDataList}" style="width:400px"  paginator="true" rows="10">
-    
+
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Modified Value"/>
@@ -146,15 +148,69 @@
                                 <f:convertDateTime timeZone="GMT+8" pattern="yyyy/MM/dd" locale="zh"/>
                             </h:outputText>
                         </p:column>
-                        
-                       
+
+
 
                     </p:dataTable>
-                </p:rowExpansion>
-
+                </p:rowExpansion>                
             </p:dataTable>
-
         </h:form>
+
+        <p:dialog header="Add a New Record" widgetVar="addDialog" modal="true">
+            <h:form id="addForm">
+                <h:panelGrid columns="4" cellpadding="10" id="addPanel">
+                    <p:outputLabel value="System:" />
+                    <p:selectOneMenu value="#{dataMB.select.system}">                          
+                        <f:selectItem itemLabel="Select One" itemValue="" />    
+                        <p:ajax  listener="#{dataMB.systemSelect}" process="@this" />     
+                        <f:selectItems  value="#{systemMB.systemList}" var="systemList" itemLabel="#{systemList.name}" itemValue="#{systemList.name}"/>                                           
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="Subsystem:"  />
+                    <p:selectOneMenu value="#{dataMB.select.subsystem}">                          
+                        <f:selectItem itemLabel="Select One" itemValue=""/> 
+                        <p:ajax  listener="#{dataMB.subsystemSelect}" process="@this" />  
+                        <f:selectItems  value="#{subsystemMB.subsystemList}" var="subsystemList" itemLabel="#{subsystemList.name}" itemValue="#{subsystemList.name}"/>                                           
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="Device Type:"  />
+                    <p:selectOneMenu value="#{dataMB.select.device}">                          
+                        <f:selectItem itemLabel="Select One" itemValue="" /> 
+                        <p:ajax  listener="#{dataMB.devicetypeSelect}" process="@this" />  
+                        <f:selectItems  value="#{devicetypeMB.devicetypeList}" var="devicetypeList" itemLabel="#{devicetypeList.name}" itemValue="#{devicetypeList.name}"/>                                           
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="Parameter:"  />
+                    <p:selectOneMenu id="parameters" value="#{dataMB.selectedParameter.id}">     
+                        <f:selectItem itemLabel="Select One" itemValue="" />        
+                        <p:ajax  listener="#{dataMB.parameterSelect}" process="@this" update="unit4parameter,def4parameter,ref4parameter"/>                       
+                        <f:selectItems  value="#{parameterMB.parameterList}" var="parameterList" itemLabel="#{parameterList.name}" itemValue="#{parameterList.id}"/>                                                                   
+                    </p:selectOneMenu>
+                
+                    <p:outputLabel value="Attribute:"   />
+                    <p:selectOneMenu  value="#{dataMB.select.attibute}">                          
+                        <f:selectItem itemLabel="Select One" itemValue="" />   
+                        <p:ajax  listener="#{dataMB.attributeSelect}" process="@this" />  
+                        <f:selectItems  value="#{attributeMB.attributeList}" var="attributeList" itemLabel="#{attributeList.name}" itemValue="#{attributeList.name}"/>                                           
+                    </p:selectOneMenu>
+                
+                     <p:outputLabel value="Unit:"  />
+                     <h:outputText id="unit4parameter" value="#{dataMB.selectedParameter.unitid.name}"/>
+                     
+                     <p:outputLabel value="Definition:"  />
+                     <h:outputText id="def4parameter" value="#{dataMB.selectedParameter.definition}"/>
+                     
+                     <p:outputLabel value="Reference:"  />
+                     <h:outputText id="ref4parameter" value="#{dataMB.selectedParameter.referenceid.title}"/>
+                     
+                     <p:outputLabel value="Value:" />
+                     <p:inputText value="#{dataMB.select.value}" />
+
+                     <p:commandButton value="commit" oncomplete="PF('addDialog').hide()" actionListener="#{dataMB.add}"/>
+                </h:panelGrid>
+            </h:form>
+       </p:dialog>
+
     </h:body>
 </html>
 

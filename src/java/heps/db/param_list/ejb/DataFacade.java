@@ -57,6 +57,11 @@ public class DataFacade {
         em.getTransaction().commit();
     }
     
+    public void updateData(Data newData){
+        em.getTransaction().begin();
+        em.merge(newData);
+        em.getTransaction().commit();
+    }
 
 
    

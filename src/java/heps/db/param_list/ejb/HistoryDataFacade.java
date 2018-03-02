@@ -30,12 +30,13 @@ public class HistoryDataFacade {
         HistoryData historyData = new HistoryData();
         historyData.setDataId(dataId);
         historyData.setValue(value);
-        historyData.setDateModified(date_modified);
+        historyData.setDateModified(date_modified); 
+        dataId.getHistoryDataList().add(historyData);
+        dataId.setHistoryDataList(dataId.getHistoryDataList());
         em.getTransaction().begin();
-        em.persist(historyData);
+        em.persist(historyData);       
         em.getTransaction().commit();
     }
-    
     public List<HistoryData> getHistoryData(){     
         Query q;
         q = em.createNamedQuery("HistoryData.findAll");

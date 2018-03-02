@@ -42,10 +42,18 @@ public class SystemFacade {
         Query q;
         q = em.createNamedQuery("System.findByName").setParameter("name", name);      
         List<System> l = q.getResultList();
+        
         if (l.isEmpty()) {
             return null;
         } else {
             return l.get(0);
         }
+    }
+    
+    public List<System> getAllSystem(){
+        Query q;
+        q=em.createNamedQuery("System.findAll");
+        return  q.getResultList();
+    
     }
 }

@@ -44,6 +44,15 @@ public class DataDisp implements Serializable {
     private String referenceURL;
     private String keyword;
     
+    private String team;
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
     private Data data;       
     
       public Data getData() {

@@ -8,6 +8,7 @@ package heps.db.param_list.ejb;
 import heps.db.param_list.entity.Attribute;
 import heps.db.param_list.entity.Data;
 import heps.db.param_list.entity.Devicetype;
+import heps.db.param_list.entity.HistoryData;
 import heps.db.param_list.entity.Parameter;
 import heps.db.param_list.entity.Subsystem;
 import heps.db.param_list.entity.Team;
@@ -15,6 +16,7 @@ import heps.db.param_list.entity.Version;
 import heps.db.param_list.tools.EmProvider;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,10 +38,10 @@ public class DataFacade {
     public static EntityManager em = emf.createEntityManager();
 
     @PersistenceContext*/
-    public static EntityManager em=EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
+    public static EntityManager em = EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
 
     public void setData(String value, Team team, heps.db.param_list.entity.System system, Subsystem subsystem, Devicetype devicetype, Date date_modified, Attribute attribute,
-             Parameter parameter, String comment, String status, Version version) {
+            Parameter parameter, String comment, String status, Version version) {
         Data d = new Data();
         d.setValue(value);
         d.setTeamid(team);
@@ -56,13 +58,26 @@ public class DataFacade {
         em.persist(d);
         em.getTransaction().commit();
     }
-    
-    public void updateData(Data newData){
+
+    public void updateData(Data newData) {
         em.getTransaction().begin();
         em.merge(newData);
         em.getTransaction().commit();
     }
 
+    public void deleteData(Data data) {      
+        List<HistoryData> hList = data.getHistoryDataList();
+        em.getTransaction().begin();
+        if (hList.isEmpty() || hList == null) {
+        } else {
+            Iterator it = hList.iterator();
+            while (it.hasNext()) {
+                HistoryData hData = (HistoryData) it.next();             
+                em.remove(em.merge(hData));
+            }
+        }
+       em.remove(em.merge(em.find(Data.class, data.getId())));
+       em.getTransaction().commit();
+    }
 
-   
 }

@@ -5,32 +5,25 @@
  */
 package heps.db.param_list.jsf.bean;
 
-import static com.sun.javafx.logging.PulseLogger.addMessage;
-import heps.db.param_list.entity.Data;
-import heps.db.param_list.ejb.DataFacade;
-import heps.db.param_list.ejb.HistoryDataFacade;
+import heps.db.param_list.ejb.ManagerFacade;
 import heps.db.param_list.ejb.ParameterFacade;
+import heps.db.param_list.entity.Manager;
 import heps.db.param_list.entity.Parameter;
 import heps.db.param_list.jsf.ejb.DataDispFacade;
 import heps.db.param_list.jsf.entity.DataDisp;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIOutput;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.ToggleEvent;
-import org.primefaces.model.Visibility;
-import static org.primefaces.model.Visibility.VISIBLE;
-
 /**
  *
  * @author Lvhuihui
@@ -39,34 +32,63 @@ import static org.primefaces.model.Visibility.VISIBLE;
 @ViewScoped
 public class DataMB implements Serializable {
 
-    //  @EJB
-    //  private heps.db.param_list.session.DataFacade ejbFacade;
     private DataDispFacade ejbFacade;
     private List<DataDisp> dataDispList;
     private List<Boolean> stateList;
     private Parameter selectedParameter;
     private DataDisp select;
+    private Boolean isLogin;
+    private Manager manager;
+
+    public void validate() {
+        System.out.println("++++" + manager.getName());
+        this.isLogin = new ManagerFacade().validate(manager);
+        String msg = "";
+        if (this.isLogin) {
+            msg = "Login success, you could edit, delete or add a record.";
+        } else {
+            msg = "The name or password is wrong.";
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+    public Boolean getIsLogin() {
+        return isLogin;
+    }
+
+    public void setIsLogin(Boolean isLogin) {
+        this.isLogin = isLogin;
+    }
 
     public DataDisp getSelect() {
         return select;
     }
 
-    public void setSelect(DataDisp select) {
+    public void setSelect(DataDisp select) {;
         this.select = select;
     }
-    
 
     public DataMB() {
         ejbFacade = new DataDispFacade();
         dataDispList = ejbFacade.getDataDispList();
         this.selectedParameter = new Parameter();
-        this.select=new DataDisp();
+        this.select = new DataDisp();
+        this.manager = new Manager();
+
     }
 
     @PostConstruct
     public void init() {
-        // dataDispList = null;     
         stateList = Arrays.asList(false, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+        isLogin = false;
     }
 
     public List<DataDisp> getDataDispList() {
@@ -85,19 +107,46 @@ public class DataMB implements Serializable {
     public void cellEdit(CellEditEvent e) {
         DataTable table = (DataTable) e.getSource();
         DataDisp dataDisp = (DataDisp) table.getRowData();
-        String oldValue = e.getOldValue().toString();
-        if (!oldValue.equals(dataDisp.getValue())) {
-            ejbFacade.edit(dataDisp, oldValue);
-            this.dataDispList = ejbFacade.getDataDispList();
+        if (dataDisp.getData().getTeamid() != null && dataDisp.getData().getTeamid().getManagerid() != null) {
+            if (this.manager.getName().equals(dataDisp.getData().getTeamid().getManagerid().getName())) {
+                String oldValue = e.getOldValue().toString();
+                if (!oldValue.equals(dataDisp.getValue())) {
+                    ejbFacade.edit(dataDisp, oldValue);
+
+                }
+            }
         }
+        this.dataDispList = ejbFacade.getDataDispList();
     }
-    
-    public void add(){
+
+    public void add() {
         System.out.println("add........");
+
         this.ejbFacade.add(select, selectedParameter);
+        this.dataDispList = ejbFacade.getDataDispList();
+        this.select = new DataDisp();
+        this.selectedParameter = new Parameter();
     }
-    
-     public Parameter getSelectedParameter() {
+
+    public void delete() {
+        System.out.println("delete......");       
+        String msg="";
+        if (this.select.getData().getTeamid() != null && this.select.getData().getTeamid().getManagerid() != null) {
+            if (this.manager.getName().equals(this.select.getData().getTeamid().getManagerid().getName())) {
+                if (this.select != null && !"".equals(select)) {
+                    this.ejbFacade.delete(select);
+                    msg="The record has been deleted!";
+                }
+                this.dataDispList = ejbFacade.getDataDispList();
+                this.select = new DataDisp();
+            }
+        } else {
+            msg="You do not have the authority to delete this record!";           
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
+    }
+
+    public Parameter getSelectedParameter() {
         return selectedParameter;
     }
 
@@ -109,35 +158,42 @@ public class DataMB implements Serializable {
         if (((UIOutput) event.getSource()).getValue() != null) {
             int paraId = Integer.parseInt(((UIOutput) event.getSource()).getValue().toString());
             this.setSelectedParameter(new ParameterFacade().getParameterById(paraId));
-           
+
         }
     }
 
-     public void systemSelect(AjaxBehaviorEvent event) {        
+    public void systemSelect(AjaxBehaviorEvent event) {
         if (((UIOutput) event.getSource()).getValue() != null) {
             String system = ((UIOutput) event.getSource()).getValue().toString();
-            this.select.setSystem(system);   
+            this.select.setSystem(system);
         }
     }
-     
-     public void subsystemSelect(AjaxBehaviorEvent event) {        
+
+    public void subsystemSelect(AjaxBehaviorEvent event) {
         if (((UIOutput) event.getSource()).getValue() != null) {
             String subsystem = ((UIOutput) event.getSource()).getValue().toString();
-            this.select.setSubsystem(subsystem); 
+            this.select.setSubsystem(subsystem);
         }
     }
-     
-     public void devicetypeSelect(AjaxBehaviorEvent event) {        
+
+    public void devicetypeSelect(AjaxBehaviorEvent event) {
         if (((UIOutput) event.getSource()).getValue() != null) {
             String devicetype = ((UIOutput) event.getSource()).getValue().toString();
             this.select.setDevice(devicetype);
         }
     }
-     
-     public void attributeSelect(AjaxBehaviorEvent event) {        
+
+    public void attributeSelect(AjaxBehaviorEvent event) {
         if (((UIOutput) event.getSource()).getValue() != null) {
             String attribute = ((UIOutput) event.getSource()).getValue().toString();
             this.select.setAttibute(attribute);
+        }
+    }
+
+    public void teamSelect(AjaxBehaviorEvent event) {
+        if (((UIOutput) event.getSource()).getValue() != null) {
+            String team = ((UIOutput) event.getSource()).getValue().toString();
+            this.select.setTeam(team);
         }
     }
 }

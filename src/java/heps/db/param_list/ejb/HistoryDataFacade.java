@@ -34,7 +34,8 @@ public class HistoryDataFacade {
         dataId.getHistoryDataList().add(historyData);
         dataId.setHistoryDataList(dataId.getHistoryDataList());
         em.getTransaction().begin();
-        em.persist(historyData);       
+        em.persist(historyData); 
+        em.flush();
         em.getTransaction().commit();
     }
     public List<HistoryData> getHistoryData(){     

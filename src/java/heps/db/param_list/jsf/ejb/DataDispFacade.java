@@ -26,11 +26,13 @@ import heps.db.param_list.ejb.HistoryDataFacade;
 import heps.db.param_list.ejb.ParameterFacade;
 import heps.db.param_list.ejb.SubsystemFacade;
 import heps.db.param_list.ejb.SystemFacade;
+import heps.db.param_list.ejb.TeamFacade;
 import heps.db.param_list.entity.HistoryData;
 import heps.db.param_list.entity.Parameter;
 import heps.db.param_list.servletContextListener.EMFServletContextListener;
 import heps.db.param_list.tools.EmProvider;
 import java.util.Date;
+import javax.persistence.FlushModeType;
 
 
 /**
@@ -60,7 +62,11 @@ public class DataDispFacade {
             Iterator<Data> it = dataList.iterator();
             while (it.hasNext()) {
                 Data data=it.next();
-                DataDisp dp = new DataDisp();              
+                DataDisp dp = new DataDisp();    
+                if(data.getTeamid()!=null){
+                   dp.setTeam(data.getTeamid().getName());
+                }
+                
                 if (data.getSystemid() != null) {
                     dp.setSystem(data.getSystemid().getName());
                 }
@@ -116,9 +122,16 @@ public class DataDispFacade {
        data.setValue(dataDisp.getValue());
        data.setDatemodified(new Date());
        data.setAttributeid(new AttributeFacade().getAttribute(dataDisp.getAttibute()));
+       data.setTeamid(new TeamFacade().getTeam(dataDisp.getTeam()));
        data.setParameterid(parameter);
        em.getTransaction().begin();
        em.persist(data);
        em.getTransaction().commit();
+    }
+    
+    public void delete(DataDisp dataDisp){
+        Data data=dataDisp.getData();
+        new DataFacade().deleteData(data);
+                     
     }
 }

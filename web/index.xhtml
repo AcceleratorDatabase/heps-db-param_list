@@ -9,22 +9,22 @@
     </h:head>
     <h:body>
         <h:form id="paraForm">
-
-            <p:dataTable id="datas" var="data" value="#{dataMB.dataDispList}" widgetVar="dt" editable="true" editMode="cell"    paginator="true" rows="20" sortMode="multiple" >
+            <p:dataTable id="datas" var="data" value="#{dataMB.dataDispList}" widgetVar="dt"  rowKey="#{data.id}" editable="#{dataMB.isLogin==true}" editMode="cell"    paginator="true" rows="20" sortMode="multiple" >
                 <f:facet name="header">
-                    <h:outputText value=" List of Parameter Values" style="font-size: 24px;color:royalblue"/>  
+                    <h:outputText value=" List of Parameter Values" style="font-size: 24px;color:royalblue"/>                                  
+                </f:facet>    
+                <f:facet name="header">
                     <p:commandButton id="toggler" type="button" value="Choose Columns to View" style="float:left;color: blueviolet" icon="ui-icon-calculator" />
-                    <p:commandButton value="Add a Value" actionListener="#{dataMB.add}" style="float:left;color:blueviolet" oncomplete="PF('addDialog').show()" />
+                    <p:commandButton value="Add a Record"  style="float:left;color:blueviolet" oncomplete="PF('addDialog').show()"   disabled= "#{dataMB.isLogin==false}"/>
+                    <p:commandButton   value="Login" style="float:left;color: blueviolet" oncomplete="PF('logDialog').show()"/>
                     <p:columnToggler datasource="datas" trigger="toggler">
                         <p:ajax event="toggle" listener="#{dataMB.onToggle}"/>                 			 
-                    </p:columnToggler>
-
-                </f:facet>                            
-                <p:ajax event="cellEdit" listener="#{dataMB.cellEdit}"/>               
+                    </p:columnToggler>   
+                </f:facet>
+                <p:ajax event="cellEdit" listener="#{dataMB.cellEdit}"/>   
 
                 <p:column style="width:10px">
                     <p:rowToggler> 
-
                     </p:rowToggler>      
                 </p:column>
 
@@ -70,6 +70,7 @@
                     </f:facet>
                     <h:outputText value="#{data.unit}"/>               
                 </p:column>
+
                 <p:column visible="#{dataMB.stateList[7]}">
 
                     <f:facet name="header">
@@ -129,6 +130,11 @@
                     <h:outputText value="#{data.keyword}"/>               
                 </p:column>
 
+                <p:column headerText="" visible="#{dataMB.isLogin==true}">
+                    <p:commandButton value="Delete">
+                        <p:ajax event="click" listener="#{dataMB.setSelect(data)}" oncomplete="PF('delDialog').show()" /> 
+                    </p:commandButton>
+                </p:column>
 
                 <p:rowExpansion id="expandedText">
                     <p:dataTable id="historyValueDatas"  var="historyData" value="#{data.data.historyDataList}" style="width:400px"  paginator="true" rows="10">
@@ -165,51 +171,87 @@
                         <p:ajax  listener="#{dataMB.systemSelect}" process="@this" />     
                         <f:selectItems  value="#{systemMB.systemList}" var="systemList" itemLabel="#{systemList.name}" itemValue="#{systemList.name}"/>                                           
                     </p:selectOneMenu>
-                    
+
                     <p:outputLabel value="Subsystem:"  />
                     <p:selectOneMenu value="#{dataMB.select.subsystem}">                          
                         <f:selectItem itemLabel="Select One" itemValue=""/> 
                         <p:ajax  listener="#{dataMB.subsystemSelect}" process="@this" />  
                         <f:selectItems  value="#{subsystemMB.subsystemList}" var="subsystemList" itemLabel="#{subsystemList.name}" itemValue="#{subsystemList.name}"/>                                           
                     </p:selectOneMenu>
-                    
+
                     <p:outputLabel value="Device Type:"  />
                     <p:selectOneMenu value="#{dataMB.select.device}">                          
                         <f:selectItem itemLabel="Select One" itemValue="" /> 
                         <p:ajax  listener="#{dataMB.devicetypeSelect}" process="@this" />  
                         <f:selectItems  value="#{devicetypeMB.devicetypeList}" var="devicetypeList" itemLabel="#{devicetypeList.name}" itemValue="#{devicetypeList.name}"/>                                           
                     </p:selectOneMenu>
-                    
+
                     <p:outputLabel value="Parameter:"  />
                     <p:selectOneMenu id="parameters" value="#{dataMB.selectedParameter.id}">     
                         <f:selectItem itemLabel="Select One" itemValue="" />        
                         <p:ajax  listener="#{dataMB.parameterSelect}" process="@this" update="unit4parameter,def4parameter,ref4parameter"/>                       
                         <f:selectItems  value="#{parameterMB.parameterList}" var="parameterList" itemLabel="#{parameterList.name}" itemValue="#{parameterList.id}"/>                                                                   
                     </p:selectOneMenu>
-                
+
                     <p:outputLabel value="Attribute:"   />
                     <p:selectOneMenu  value="#{dataMB.select.attibute}">                          
                         <f:selectItem itemLabel="Select One" itemValue="" />   
                         <p:ajax  listener="#{dataMB.attributeSelect}" process="@this" />  
                         <f:selectItems  value="#{attributeMB.attributeList}" var="attributeList" itemLabel="#{attributeList.name}" itemValue="#{attributeList.name}"/>                                           
                     </p:selectOneMenu>
-                
-                     <p:outputLabel value="Unit:"  />
-                     <h:outputText id="unit4parameter" value="#{dataMB.selectedParameter.unitid.name}"/>
-                     
-                     <p:outputLabel value="Definition:"  />
-                     <h:outputText id="def4parameter" value="#{dataMB.selectedParameter.definition}"/>
-                     
-                     <p:outputLabel value="Reference:"  />
-                     <h:outputText id="ref4parameter" value="#{dataMB.selectedParameter.referenceid.title}"/>
-                     
-                     <p:outputLabel value="Value:" />
-                     <p:inputText value="#{dataMB.select.value}" />
 
-                     <p:commandButton value="commit" oncomplete="PF('addDialog').hide()" actionListener="#{dataMB.add}"/>
+                    <p:outputLabel value="Team:" />
+                    <p:selectOneMenu value="#{dataMB.select.team}">                          
+                        <f:selectItem itemLabel="Select One" itemValue="" />    
+                        <p:ajax  listener="#{dataMB.teamSelect}" process="@this" />     
+                        <f:selectItems  value="#{teamMB.teamList}" var="teamList" itemLabel="#{teamList.name}" itemValue="#{teamList.name}"/>                                           
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Unit:"  />
+                    <h:outputText id="unit4parameter" value="#{dataMB.selectedParameter.unitid.name}"/>
+
+                    <p:outputLabel value="Definition:"  />
+                    <h:outputText id="def4parameter" value="#{dataMB.selectedParameter.definition}"/>
+
+                    <p:outputLabel value="Reference:"  />
+                    <h:outputText id="ref4parameter" value="#{dataMB.selectedParameter.referenceid.title}"/>
+
+                    <p:outputLabel value="Value:" />
+                    <p:inputText value="#{dataMB.select.value}" />
+
+                    <p:commandButton value="commit" oncomplete="PF('addDialog').hide()" actionListener="#{dataMB.add}" update=":paraForm:datas"/>
                 </h:panelGrid>
             </h:form>
-       </p:dialog>
+        </p:dialog>
+
+        <p:dialog header="Are you sure to delete the record?" widgetVar="delDialog" modal="true">
+            <h:form id="delForm">
+                <p:messages  id="delMsg" autoUpdate="true"/>
+                <h:panelGrid columns="2" cellpadding="10" id="delPanel">
+                    <f:facet name="delFacet">
+                        <p:outputLabel value="Are you sure?"/>
+                    </f:facet>
+                    <p:commandButton value="YES" actionListener="#{dataMB.delete}" update=":paraForm:datas,delForm" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="NO" type="button" onclick="PF('delDialog').hide()" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+                    
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Leader Login" widgetVar="logDialog" modal="true">
+            <h:form id="logForm">
+                <p:messages id="msgs" autoUpdate="true"/>
+
+                <h:panelGrid columns="2" cellpadding="10" id="loglPanel">
+                    <p:outputLabel value="Name:"  />
+                    <h:inputText  value="#{dataMB.manager.name}"/>                   
+                    <p:outputLabel value="Password:" />
+                    <p:password value="#{dataMB.manager.password}" />                 
+                    <p:commandButton value="commit" actionListener="#{dataMB.validate}" update=":paraForm:datas,logForm"  />                                
+                    <p:commandButton value="close" onclick="PF('logDialog').hide()"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
 
     </h:body>
 </html>

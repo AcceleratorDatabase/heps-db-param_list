@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Manager.findAll", query = "SELECT m FROM Manager m")
     , @NamedQuery(name = "Manager.findById", query = "SELECT m FROM Manager m WHERE m.id = :id")
-    , @NamedQuery(name = "Manager.findByName", query = "SELECT m FROM Manager m WHERE m.name = :name")})
+    , @NamedQuery(name = "Manager.findByName", query = "SELECT m FROM Manager m WHERE m.name = :name")
+    , @NamedQuery(name = "Manager.findByPassword", query = "SELECT m FROM Manager m WHERE m.password = :password")})
 public class Manager implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +44,9 @@ public class Manager implements Serializable {
     @Size(max = 45)
     @Column(name = "Name")
     private String name;
+    @Size(max = 45)
+    @Column(name = "Password")
+    private String password;
     @OneToMany(mappedBy = "managerid")
     private List<Team> teamList;
 
@@ -67,6 +71,14 @@ public class Manager implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @XmlTransient

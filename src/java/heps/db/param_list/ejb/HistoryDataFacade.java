@@ -26,7 +26,6 @@ public class HistoryDataFacade {
     public static EntityManager em = EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
 
     public void setHistoryData(Data dataId, String value, Date date_modified) {
-
         HistoryData historyData = new HistoryData();
         historyData.setDataId(dataId);
         historyData.setValue(value);

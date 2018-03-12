@@ -24,6 +24,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.ToggleEvent;
+
 /**
  *
  * @author Lvhuihui
@@ -34,6 +35,7 @@ public class DataMB implements Serializable {
 
     private DataDispFacade ejbFacade;
     private List<DataDisp> dataDispList;
+
     private List<Boolean> stateList;
     private Parameter selectedParameter;
     private DataDisp select;
@@ -96,6 +98,10 @@ public class DataMB implements Serializable {
         return dataDispList;
     }
 
+    public void setDataDispList(List<DataDisp> dataDispList) {
+        this.dataDispList = dataDispList;
+    }
+
     public List<Boolean> getStateList() {
         return this.stateList;
     }
@@ -112,11 +118,11 @@ public class DataMB implements Serializable {
                 String oldValue = e.getOldValue().toString();
                 if (!oldValue.equals(dataDisp.getValue())) {
                     ejbFacade.edit(dataDisp, oldValue);
-
+                    this.setDataDispList(ejbFacade.getDataDispList());
                 }
             }
         }
-        this.dataDispList = ejbFacade.getDataDispList();
+
     }
 
     public void add() {
@@ -129,19 +135,24 @@ public class DataMB implements Serializable {
     }
 
     public void delete() {
-        System.out.println("delete......");       
-        String msg="";
-        if (this.select.getData().getTeamid() != null && this.select.getData().getTeamid().getManagerid() != null) {
-            if (this.manager.getName().equals(this.select.getData().getTeamid().getManagerid().getName())) {
-                if (this.select != null && !"".equals(select)) {
-                    this.ejbFacade.delete(select);
-                    msg="The record has been deleted!";
-                }
-                this.dataDispList = ejbFacade.getDataDispList();
-                this.select = new DataDisp();
-            }
+        System.out.println("delete......");
+        String msg = "";
+        if (this.select == null || this.select.getData() == null) {
+            msg = "The record has already been deleted!";
         } else {
-            msg="You do not have the authority to delete this record!";           
+
+            if (this.select.getData().getTeamid() != null && this.select.getData().getTeamid().getManagerid() != null) {
+                if (this.manager.getName().equals(this.select.getData().getTeamid().getManagerid().getName())) {
+                    if (this.select != null && !"".equals(select)) {
+                        this.ejbFacade.delete(select);
+                        msg = "The record has been deleted!";
+                    }
+                    this.dataDispList = ejbFacade.getDataDispList();
+                    this.select = new DataDisp();
+                }
+            } else {
+                msg = "You do not have the authority to delete this record!";
+            }
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
     }

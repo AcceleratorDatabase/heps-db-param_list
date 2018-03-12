@@ -21,7 +21,7 @@
                         <p:ajax event="toggle" listener="#{dataMB.onToggle}"/>                 			 
                     </p:columnToggler>   
                 </f:facet>
-                <p:ajax event="cellEdit" listener="#{dataMB.cellEdit}"/>   
+                <p:ajax event="cellEdit" listener="#{dataMB.cellEdit}" update=":paraForm:datas"/>   
 
                 <p:column style="width:10px">
                     <p:rowToggler> 
@@ -231,7 +231,7 @@
                     <f:facet name="delFacet">
                         <p:outputLabel value="Are you sure?"/>
                     </f:facet>
-                    <p:commandButton value="YES" actionListener="#{dataMB.delete}" update=":paraForm:datas,delForm" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="YES" actionListener="#{dataMB.delete}" update=":paraForm:datas,delForm"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="NO" type="button" onclick="PF('delDialog').hide()" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
                     
                 </h:panelGrid>

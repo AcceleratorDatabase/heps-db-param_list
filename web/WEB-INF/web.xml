@@ -21,4 +21,14 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/ui/error/error.xhtml</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/ui/error/viewExpired.xhtml</location>
+    </error-page>
+    
 </web-app>

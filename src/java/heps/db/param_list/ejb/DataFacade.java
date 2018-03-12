@@ -65,19 +65,42 @@ public class DataFacade {
         em.getTransaction().commit();
     }
 
-    public void deleteData(Data data) {      
+    public void deleteData(Data data) {
         List<HistoryData> hList = data.getHistoryDataList();
         em.getTransaction().begin();
         if (hList.isEmpty() || hList == null) {
         } else {
             Iterator it = hList.iterator();
             while (it.hasNext()) {
-                HistoryData hData = (HistoryData) it.next();             
+                HistoryData hData = (HistoryData) it.next();
                 em.remove(em.merge(hData));
             }
         }
-       em.remove(em.merge(em.find(Data.class, data.getId())));
-       em.getTransaction().commit();
+        data=em.find(Data.class, data.getId());
+        data.setHistoryDataList(null);
+        em.remove(em.merge(data));
+        em.getTransaction().commit();
+    }
+
+    public Data find(Data data) {
+        if (data != null && !"".equals(data)) {
+            Query q = em.createNamedQuery("Data.findByValue").setParameter("value", data.getValue());
+            List<Data> dList = q.getResultList();
+            if (dList.isEmpty() || dList == null) {
+                return null;
+            }else{
+               Iterator it=dList.iterator();
+               while(it.hasNext()){
+                  Data d=(Data) it.next();
+                  if((d.getSystemid().equals(data.getSystemid()))&&(d.getSubsystemid().equals(data.getSubsystemid()))
+                          &&(d.getDevicetypeId().equals(data.getDevicetypeId()))&&(d.getParameterid().equals(data.getParameterid()))
+                          &&(d.getAttributeid().equals(data.getAttributeid()))){
+                 return d;
+                  }
+               }
+            }
+        }
+        return null;
     }
 
 }

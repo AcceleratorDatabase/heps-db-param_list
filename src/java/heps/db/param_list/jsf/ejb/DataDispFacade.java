@@ -5,8 +5,8 @@
  */
 package heps.db.param_list.jsf.ejb;
 
-import heps.db.param_list.ejb.AttributeFacade;
-import heps.db.param_list.entity.Data;
+import heps.db.param_list.db.ejb.AttributeFacade;
+import heps.db.param_list.db.entity.Data;
 import heps.db.param_list.jsf.entity.DataDisp;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,14 +14,14 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import heps.db.param_list.ejb.DataFacade;
-import heps.db.param_list.ejb.DevicetypeFacade;
-import heps.db.param_list.ejb.HistoryDataFacade;
-import heps.db.param_list.ejb.SubsystemFacade;
-import heps.db.param_list.ejb.SystemFacade;
-import heps.db.param_list.ejb.TeamFacade;
-import heps.db.param_list.entity.Parameter;
-import heps.db.param_list.tools.EmProvider;
+import heps.db.param_list.db.ejb.DataFacade;
+import heps.db.param_list.db.ejb.DevicetypeFacade;
+import heps.db.param_list.db.ejb.HistoryDataFacade;
+import heps.db.param_list.db.ejb.SubsystemFacade;
+import heps.db.param_list.db.ejb.SystemFacade;
+import heps.db.param_list.db.ejb.TeamFacade;
+import heps.db.param_list.db.entity.Parameter;
+import heps.db.param_list.comman.tools.EmProvider;
 import java.util.Date;
 
 /**

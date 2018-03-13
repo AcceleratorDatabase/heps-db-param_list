@@ -2,21 +2,21 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="param_listPU" transaction-type="JTA">
     <jta-data-source>jdbc/mysql-resource</jta-data-source>
-    <class>heps.db.param_list.entity.Attribute</class>
-    <class>heps.db.param_list.entity.Data</class>
-    <class>heps.db.param_list.entity.Devicetype</class>
-    <class>heps.db.param_list.entity.Manager</class>
-    <class>heps.db.param_list.entity.Parameter</class>
-    <class>heps.db.param_list.entity.ReSystemSubsystem</class>
-    <class>heps.db.param_list.entity.Reference</class>
-    <class>heps.db.param_list.entity.Subsystem</class>
-    <class>heps.db.param_list.entity.System</class>
-    <class>heps.db.param_list.entity.Team</class>
-    <class>heps.db.param_list.entity.Unit</class>
-    <class>heps.db.param_list.entity.Version</class>
     <class>heps.db.param_list.jsf.entity.DataDisp</class>
-    <class>heps.db.param_list.entity.Accelerator</class>
-    <class>heps.db.param_list.entity.HistoryData</class>
+    <class>heps.db.param_list.db.entity.Accelerator</class>
+    <class>heps.db.param_list.db.entity.Data</class>
+    <class>heps.db.param_list.db.entity.Attribute</class>
+    <class>heps.db.param_list.db.entity.Manager</class>
+    <class>heps.db.param_list.db.entity.Version</class>
+    <class>heps.db.param_list.db.entity.Team</class>
+    <class>heps.db.param_list.db.entity.Parameter</class>
+    <class>heps.db.param_list.db.entity.System</class>
+    <class>heps.db.param_list.db.entity.Devicetype</class>
+    <class>heps.db.param_list.db.entity.HistoryData</class>
+    <class>heps.db.param_list.db.entity.Reference</class>
+    <class>heps.db.param_list.db.entity.ReSystemSubsystem</class>
+    <class>heps.db.param_list.db.entity.Subsystem</class>
+    <class>heps.db.param_list.db.entity.Unit</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/parameter_list"/>

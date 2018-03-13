@@ -5,8 +5,8 @@
  */
 package heps.db.param_list.jsf.entity;
 
-import heps.db.param_list.entity.Data;
-import heps.db.param_list.entity.HistoryData;
+import heps.db.param_list.db.entity.Data;
+import heps.db.param_list.db.entity.HistoryData;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

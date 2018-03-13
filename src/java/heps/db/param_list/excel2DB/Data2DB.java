@@ -5,21 +5,21 @@
  */
 package heps.db.param_list.excel2DB;
 
-import heps.db.param_list.ejb.AttributeFacade;
-import heps.db.param_list.ejb.DataFacade;
-import heps.db.param_list.ejb.DevicetypeFacade;
-import heps.db.param_list.ejb.ParameterFacade;
-import heps.db.param_list.ejb.ReferenceFacade;
-import heps.db.param_list.ejb.SubsystemFacade;
-import heps.db.param_list.ejb.SystemFacade;
-import heps.db.param_list.ejb.UnitFacade;
-import heps.db.param_list.entity.Attribute;
-import heps.db.param_list.entity.Data;
-import heps.db.param_list.entity.Devicetype;
-import heps.db.param_list.entity.Parameter;
-import heps.db.param_list.entity.Reference;
-import heps.db.param_list.entity.Subsystem;
-import heps.db.param_list.entity.Unit;
+import heps.db.param_list.db.ejb.AttributeFacade;
+import heps.db.param_list.db.ejb.DataFacade;
+import heps.db.param_list.db.ejb.DevicetypeFacade;
+import heps.db.param_list.db.ejb.ParameterFacade;
+import heps.db.param_list.db.ejb.ReferenceFacade;
+import heps.db.param_list.db.ejb.SubsystemFacade;
+import heps.db.param_list.db.ejb.SystemFacade;
+import heps.db.param_list.db.ejb.UnitFacade;
+import heps.db.param_list.db.entity.Attribute;
+import heps.db.param_list.db.entity.Data;
+import heps.db.param_list.db.entity.Devicetype;
+import heps.db.param_list.db.entity.Parameter;
+import heps.db.param_list.db.entity.Reference;
+import heps.db.param_list.db.entity.Subsystem;
+import heps.db.param_list.db.entity.Unit;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
-import heps.db.param_list.tools.ConstantClassField;
+import heps.db.param_list.comman.constants.DateFormat;
 
 
 /**
@@ -227,7 +227,7 @@ public class Data2DB {
                 unit = a.get(unitCol).toString();
                 if(!"".equals(a.get(defCol).toString())) def = a.get(defCol).toString();
                 if (a.get(dateCol) != null && (!a.get(dateCol).equals(""))) {
-                    SimpleDateFormat format1 = new SimpleDateFormat(ConstantClassField.dateFormat);
+                    SimpleDateFormat format1 = new SimpleDateFormat(DateFormat.dateFormat);
                     try {
                         date_mod = format1.parse((String) a.get(dateCol));
                     } catch (ParseException ex) {
@@ -275,12 +275,12 @@ public class Data2DB {
             value = (String) a.get(valueCol);
             if (!value.toLowerCase().contains("data") && (!value.equals("参数值"))) {
                 system = (String) a.get(sysCol);
-                heps.db.param_list.entity.System sys = new SystemFacade().getSystem(system);
+                heps.db.param_list.db.entity.System sys = new SystemFacade().getSystem(system);
                 sub = (String) a.get(subCol);
                 Subsystem subsys = new SubsystemFacade().getSubsystem(sub);
                 deviceType = (String) a.get(devCol);
                 Devicetype device = new DevicetypeFacade().getDevicetype(deviceType);
-                SimpleDateFormat format1 = new SimpleDateFormat(ConstantClassField.dateFormat);
+                SimpleDateFormat format1 = new SimpleDateFormat(DateFormat.dateFormat);
                 if (a.get(dateCol) != null && (!"".equals(a.get(dateCol)))) {
                     try {
                         date_mod = format1.parse((String) a.get(dateCol));

@@ -5,10 +5,10 @@
  */
 package heps.db.param_list.jsf.bean;
 
-import heps.db.param_list.ejb.ManagerFacade;
-import heps.db.param_list.ejb.ParameterFacade;
-import heps.db.param_list.entity.Manager;
-import heps.db.param_list.entity.Parameter;
+import heps.db.param_list.db.ejb.ManagerFacade;
+import heps.db.param_list.db.ejb.ParameterFacade;
+import heps.db.param_list.db.entity.Manager;
+import heps.db.param_list.db.entity.Parameter;
 import heps.db.param_list.jsf.ejb.DataDispFacade;
 import heps.db.param_list.jsf.entity.DataDisp;
 import java.io.Serializable;

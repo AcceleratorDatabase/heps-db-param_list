@@ -5,7 +5,7 @@
  */
 package heps.db.param_list.excel2DB;
 
-import heps.db.param_list.tools.ConstantClassField;
+import heps.db.param_list.comman.constants.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class ReadExcel {
                                 String val = val3.toString();
                                 if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
                                     Date theDate = cell.getDateCellValue();
-                                    SimpleDateFormat format = new SimpleDateFormat(ConstantClassField.dateFormat);
+                                    SimpleDateFormat format = new SimpleDateFormat(DateFormat.dateFormat);
                                     val = format.format(theDate);
                                    // System.out.println("*****"+val);
                                 } else {
@@ -110,7 +110,7 @@ public class ReadExcel {
                                 String val = val3.toString();
                                 if (org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(cell)) {
                                     Date theDate = cell.getDateCellValue();
-                                    SimpleDateFormat format = new SimpleDateFormat(ConstantClassField.dateFormat);
+                                    SimpleDateFormat format = new SimpleDateFormat(DateFormat.dateFormat);
                                     val = format.format(theDate);
                                    // System.out.println("*****"+val);
                                 } else {

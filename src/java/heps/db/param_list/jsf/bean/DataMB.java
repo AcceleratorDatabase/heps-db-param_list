@@ -106,9 +106,12 @@ public class DataMB implements Serializable {
         return this.stateList;
     }
 
-    public void onToggle(ToggleEvent e) {      
-        if ((int) e.getData() - 1 < stateList.size()) {
-            stateList.set((int) e.getData() - 1, e.getVisibility() == e.getVisibility().VISIBLE);
+    public void onToggle(ToggleEvent e) {
+        System.out.println(e.getData());
+        if ((int) e.getData()!=0) {
+            if (((int) e.getData() - 1) < stateList.size()) {
+                stateList.set((int) e.getData() - 1, e.getVisibility() == e.getVisibility().VISIBLE);
+            }
         }
     }
 
@@ -150,6 +153,8 @@ public class DataMB implements Serializable {
                     }
                     this.dataDispList = ejbFacade.getDataDispList();
                     this.select = new DataDisp();
+                }else{
+                   msg = "You do not have the authority to delete this record!";
                 }
             } else {
                 msg = "You do not have the authority to delete this record!";

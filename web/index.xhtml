@@ -187,8 +187,8 @@
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Parameter:"  />
-                    <p:selectOneMenu id="parameters" value="#{dataMB.selectedParameter.id}">     
-                        <f:selectItem itemLabel="Select One" itemValue="" />        
+                    <p:selectOneMenu id="parameters" value="#{dataMB.selectedParameter.id}" required="true">     
+                        <!--<f:selectItem itemLabel="Select One" itemValue="" />-->        
                         <p:ajax  listener="#{dataMB.parameterSelect}" process="@this" update="unit4parameter,def4parameter,ref4parameter"/>                       
                         <f:selectItems  value="#{parameterMB.parameterList}" var="parameterList" itemLabel="#{parameterList.name}" itemValue="#{parameterList.id}"/>                                                                   
                     </p:selectOneMenu>
@@ -208,7 +208,7 @@
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Unit:"  />
-                    <h:outputText id="unit4parameter" value="#{dataMB.selectedParameter.unitid.name}"/>
+                    <h:outputText id="unit4parameter" value="#{dataMB.selectedParameter.unitid.name}" />
 
                     <p:outputLabel value="Definition:"  />
                     <h:outputText id="def4parameter" value="#{dataMB.selectedParameter.definition}"/>
@@ -227,12 +227,13 @@
         <p:dialog header="Are you sure to delete the record?" widgetVar="delDialog" modal="true">
             <h:form id="delForm">
                 <p:messages  id="delMsg" autoUpdate="true"/>
-                <h:panelGrid columns="2" cellpadding="10" id="delPanel">
+                <h:panelGrid columns="3" cellpadding="15" id="delPanel">
                     <f:facet name="delFacet">
                         <p:outputLabel value="Are you sure?"/>
                     </f:facet>
                     <p:commandButton value="YES" actionListener="#{dataMB.delete}" update=":paraForm:datas,delForm"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="NO" type="button" onclick="PF('delDialog').hide()" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+                    <p:commandButton value="CLOSE" type="button" onclick="PF('delDialog').hide()" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
                     
                 </h:panelGrid>
             </h:form>

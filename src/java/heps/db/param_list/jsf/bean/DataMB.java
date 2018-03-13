@@ -106,8 +106,10 @@ public class DataMB implements Serializable {
         return this.stateList;
     }
 
-    public void onToggle(ToggleEvent e) {
-        stateList.set((int) e.getData(), e.getVisibility() == e.getVisibility().VISIBLE);
+    public void onToggle(ToggleEvent e) {      
+        if ((int) e.getData() - 1 < stateList.size()) {
+            stateList.set((int) e.getData() - 1, e.getVisibility() == e.getVisibility().VISIBLE);
+        }
     }
 
     public void cellEdit(CellEditEvent e) {
@@ -118,16 +120,15 @@ public class DataMB implements Serializable {
                 String oldValue = e.getOldValue().toString();
                 if (!oldValue.equals(dataDisp.getValue())) {
                     ejbFacade.edit(dataDisp, oldValue);
-                    this.setDataDispList(ejbFacade.getDataDispList());
                 }
             }
         }
+        this.setDataDispList(ejbFacade.getDataDispList());
 
     }
 
     public void add() {
         System.out.println("add........");
-
         this.ejbFacade.add(select, selectedParameter);
         this.dataDispList = ejbFacade.getDataDispList();
         this.select = new DataDisp();

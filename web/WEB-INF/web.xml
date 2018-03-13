@@ -24,11 +24,20 @@
     
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/ui/error/error.xhtml</location>
+        <location>/faces/index.xhtml</location>
     </error-page>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/ui/error/viewExpired.xhtml</location>
+        <location>/faces/index.xhtml</location>
     </error-page>
     
+    <context-param>
+        <param-name>com.sun.faces.numberOfViewsInSession</param-name>
+        <param-value>50</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.sun.faces.numberOfLogicalViews</param-name>
+        <param-value>50</param-value>
+    </context-param>
+
 </web-app>

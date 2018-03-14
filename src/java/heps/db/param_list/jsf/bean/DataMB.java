@@ -47,7 +47,7 @@ public class DataMB implements Serializable {
         this.isLogin = new ManagerFacade().validate(manager);
         String msg = "";
         if (this.isLogin) {
-            msg = "Login success, you could edit, delete or add a record.";
+            msg = "Login success!";
         } else {
             msg = "The name or password is wrong.";
         }

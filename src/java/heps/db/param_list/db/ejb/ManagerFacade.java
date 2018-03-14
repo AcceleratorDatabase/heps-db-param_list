@@ -44,8 +44,10 @@ public class ManagerFacade {
     public Boolean validate(Manager manager) {
         if (manager != null) {
             Manager inDatabase = this.getManager(manager.getName());
-            if(inDatabase.getPassword().equals(manager.getPassword())){
-               return  true;
+            if (inDatabase != null) {
+                if (inDatabase.getPassword().equals(manager.getPassword())) {
+                    return true;
+                }
             }
         }
         return false;

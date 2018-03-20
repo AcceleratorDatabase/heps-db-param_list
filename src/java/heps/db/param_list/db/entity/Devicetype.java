@@ -100,7 +100,7 @@ public class Devicetype implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Devicetype[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Devicetype[ id=" + id + " ]";
     }
     
 }

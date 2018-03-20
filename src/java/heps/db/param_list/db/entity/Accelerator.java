@@ -100,7 +100,7 @@ public class Accelerator implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Accelerator[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Accelerator[ id=" + id + " ]";
     }
     
 }

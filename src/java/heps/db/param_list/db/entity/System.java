@@ -122,7 +122,7 @@ public class System implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.System[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.System[ id=" + id + " ]";
     }
     
 }

@@ -97,7 +97,7 @@ public class ReSystemSubsystem implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.ReSystemSubsystem[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.ReSystemSubsystem[ id=" + id + " ]";
     }
     
 }

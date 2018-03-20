@@ -100,7 +100,7 @@ public class Unit implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Unit[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Unit[ id=" + id + " ]";
     }
     
 }

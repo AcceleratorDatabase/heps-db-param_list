@@ -112,7 +112,7 @@ public class Manager implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Manager[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Manager[ id=" + id + " ]";
     }
     
 }

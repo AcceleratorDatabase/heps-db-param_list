@@ -124,7 +124,7 @@ public class Version implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Version[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Version[ id=" + id + " ]";
     }
     
 }

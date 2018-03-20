@@ -114,7 +114,7 @@ public class HistoryData implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.HistoryData[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.HistoryData[ id=" + id + " ]";
     }
     
 }

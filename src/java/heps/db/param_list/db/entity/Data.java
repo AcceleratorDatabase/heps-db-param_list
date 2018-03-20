@@ -12,10 +12,12 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -52,6 +54,9 @@ public class Data implements Serializable {
     @Size(max = 200)
     @Column(name = "Value")
     private String value;
+    @Lob @Basic(fetch=LAZY)
+    @Column(name = "image")
+    private byte[] image;
     @Column(name = "Date_modified")
     @Temporal(TemporalType.DATE)
     private Date datemodified;
@@ -106,6 +111,14 @@ public class Data implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public Date getDatemodified() {
@@ -219,7 +232,7 @@ public class Data implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Data[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Data[ id=" + id + " ]";
     }
     
 }

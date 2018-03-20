@@ -14,16 +14,17 @@ import heps.db.param_list.db.entity.Subsystem;
 import heps.db.param_list.db.entity.Team;
 import heps.db.param_list.db.entity.Version;
 import heps.db.param_list.comman.tools.EmProvider;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 /**
@@ -76,10 +77,25 @@ public class DataFacade {
                 em.remove(em.merge(hData));
             }
         }
-        data=em.find(Data.class, data.getId());
+        data = em.find(Data.class, data.getId());
         data.setHistoryDataList(null);
         em.remove(em.merge(data));
         em.getTransaction().commit();
+    }
+
+    public Data find(int id) {
+        Query q = em.createNamedQuery("Data.findById").setParameter("id", id);
+        List<Data> dList = q.getResultList();
+        if (dList.isEmpty() || dList == null) {
+            return null;
+        } else {
+            Iterator it = dList.iterator();
+            while (it.hasNext()) {
+                Data data = (Data) it.next();
+                return data;
+            }
+        }
+        return null;
     }
 
     public Data find(Data data) {
@@ -88,19 +104,44 @@ public class DataFacade {
             List<Data> dList = q.getResultList();
             if (dList.isEmpty() || dList == null) {
                 return null;
-            }else{
-               Iterator it=dList.iterator();
-               while(it.hasNext()){
-                  Data d=(Data) it.next();
-                  if((d.getSystemid().equals(data.getSystemid()))&&(d.getSubsystemid().equals(data.getSubsystemid()))
-                          &&(d.getDevicetypeId().equals(data.getDevicetypeId()))&&(d.getParameterid().equals(data.getParameterid()))
-                          &&(d.getAttributeid().equals(data.getAttributeid()))){
-                 return d;
-                  }
-               }
+            } else {
+                Iterator it = dList.iterator();
+                while (it.hasNext()) {
+                    Data d = (Data) it.next();
+                    if ((d.getSystemid().equals(data.getSystemid())) && (d.getSubsystemid().equals(data.getSubsystemid()))
+                            && (d.getDevicetypeId().equals(data.getDevicetypeId())) && (d.getParameterid().equals(data.getParameterid()))
+                            && (d.getAttributeid().equals(data.getAttributeid()))) {
+                        return d;
+                    }
+                }
             }
         }
         return null;
+    }
+
+    public void setImage(Data data, File file) {
+        FileInputStream fin = null;
+        try {
+            fin = new FileInputStream(file);
+            byte[] bytes = null;
+            bytes = new byte[fin.available()];
+            fin.read(bytes);
+            System.out.println(bytes);
+            data.setImage(bytes);
+            em.getTransaction().begin();
+            em.merge(data);
+            em.getTransaction().commit();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fin.close();
+            } catch (IOException ex) {
+                Logger.getLogger(DataFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
 }

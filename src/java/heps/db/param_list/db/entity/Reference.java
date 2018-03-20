@@ -148,7 +148,7 @@ public class Reference implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Reference[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Reference[ id=" + id + " ]";
     }
     
 }

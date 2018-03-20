@@ -22,6 +22,7 @@ import heps.db.param_list.db.ejb.SystemFacade;
 import heps.db.param_list.db.ejb.TeamFacade;
 import heps.db.param_list.db.entity.Parameter;
 import heps.db.param_list.comman.tools.EmProvider;
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -85,7 +86,7 @@ public class DataDispFacade {
                 if (data.getDatemodified() != null) {
                     dp.setChangeDate(data.getDatemodified());
                 }
-
+                
                 dp.setValue(data.getValue());
                 dp.setData(data);
                 dp.setId(data.getId().longValue());
@@ -130,5 +131,10 @@ public class DataDispFacade {
         Data data = dataDisp.getData();
         new DataFacade().deleteData(data);
 
+    }
+    
+    public void setImage(DataDisp dataDisp,File image){
+        Data data=dataDisp.getData();
+        new DataFacade().setImage(data, image);
     }
 }

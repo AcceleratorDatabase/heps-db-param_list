@@ -32,7 +32,7 @@
                     <f:facet name="header">
                         <h:outputText value="Id"/>
                     </f:facet>
-                    <h:outputText value="#{data.id}" />        
+                    <h:outputText value="#{data.id}"  />        
                 </p:column>
                 <p:column sortBy="#{data.system}" filterBy="#{data.system}" filterMatchMode="contains"  visible="#{dataMB.stateList[1]}">
                     <f:facet name="header">
@@ -85,6 +85,16 @@
                         </f:facet>
                     </p:cellEditor> 
                 </p:column>
+
+                <p:column headerText="Image"  width="95">                  
+                    <p:commandButton value="Upload"   disabled="#{dataMB.isLogin==false}" style="width: 90px">
+                        <p:ajax event="click" listener="#{dataMB.setSelect(data)}" oncomplete="PF('uploadImageDialog').show()" /> 
+                    </p:commandButton>
+                    <p:commandButton value="View" style="width: 90px">
+                        <p:ajax event="click" listener="#{valueImageMB.putImage(data)}"  update=":viewImageForm"  oncomplete="PF('viewImageDialog').show()" />                 
+                    </p:commandButton>
+                </p:column>
+
                 <p:column visible="#{dataMB.stateList[8]}">
                     <f:facet name="header">
                         <h:outputText value="Change Date"/>
@@ -130,7 +140,7 @@
                     <h:outputText value="#{data.keyword}"/>               
                 </p:column>
 
-                <p:column headerText="" visible="#{dataMB.isLogin==true}">
+                <p:column headerText="" visible="#{dataMB.isLogin==true}" width="95">
                     <p:commandButton value="Delete">
                         <p:ajax event="click" listener="#{dataMB.setSelect(data)}" oncomplete="PF('delDialog').show()" /> 
                     </p:commandButton>
@@ -218,7 +228,6 @@
 
                     <p:outputLabel value="Value:" />
                     <p:inputText value="#{dataMB.select.value}" />
-
                     <p:commandButton value="commit" oncomplete="PF('addDialog').hide()" actionListener="#{dataMB.add}" update=":paraForm:datas"/>
                 </h:panelGrid>
             </h:form>
@@ -234,7 +243,7 @@
                     <p:commandButton value="YES" actionListener="#{dataMB.delete}" update=":paraForm:datas,delForm"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="NO" type="button" onclick="PF('delDialog').hide()" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
                     <p:commandButton value="CLOSE" type="button" onclick="PF('delDialog').hide()" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
-                    
+
                 </h:panelGrid>
             </h:form>
         </p:dialog>
@@ -253,6 +262,24 @@
                 </h:panelGrid>
             </h:form>
         </p:dialog>
+
+        <p:dialog header="Upload an Image" widgetVar="uploadImageDialog" modal="true" >
+            <h:form id="uploadImageForm">
+                <h:panelGrid cellpadding="10" columns="1" >  
+                    <h:outputLabel value="Choose an Image:" style="font-size: 24px;color:royalblue"/>            
+                    <p:fileUpload  fileUploadListener="#{dataMB.uploadImage}"   mode="advanced" 
+                                   style="text-align: center; width: 600px; height: 100px; " />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="View the Image" widgetVar="viewImageDialog" modal="true" >
+             <h:form id="viewImageForm" >
+                 <p:graphicImage value="#{valueImageMB.image}" id="images">
+                   <!--  <f:param name="dataId" value="#{dataMB.select.id}"/>-->
+                 </p:graphicImage>
+             </h:form>
+         </p:dialog>
 
     </h:body>
 </html>

@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -43,8 +44,9 @@ public class DataDisp implements Serializable {
     private String referencePublication;
     private String referenceURL;
     private String keyword;
-    
+    private Data data;   
     private String team;
+
 
     public String getTeam() {
         return team;
@@ -53,7 +55,7 @@ public class DataDisp implements Serializable {
     public void setTeam(String team) {
         this.team = team;
     }
-    private Data data;       
+        
     
       public Data getData() {
         return data;

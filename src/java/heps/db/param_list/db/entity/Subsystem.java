@@ -122,7 +122,7 @@ public class Subsystem implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Subsystem[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Subsystem[ id=" + id + " ]";
     }
     
 }

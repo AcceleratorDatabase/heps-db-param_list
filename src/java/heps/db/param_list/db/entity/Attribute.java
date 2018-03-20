@@ -100,7 +100,7 @@ public class Attribute implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Attribute[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Attribute[ id=" + id + " ]";
     }
     
 }

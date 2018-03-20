@@ -124,7 +124,7 @@ public class Team implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Team[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Team[ id=" + id + " ]";
     }
     
 }

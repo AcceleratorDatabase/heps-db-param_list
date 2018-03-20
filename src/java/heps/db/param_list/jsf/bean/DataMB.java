@@ -11,9 +11,15 @@ import heps.db.param_list.db.entity.Manager;
 import heps.db.param_list.db.entity.Parameter;
 import heps.db.param_list.jsf.ejb.DataDispFacade;
 import heps.db.param_list.jsf.entity.DataDisp;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -23,7 +29,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -41,6 +50,8 @@ public class DataMB implements Serializable {
     private DataDisp select;
     private Boolean isLogin;
     private Manager manager;
+
+
 
     public void validate() {
         System.out.println("++++" + manager.getName());
@@ -74,7 +85,8 @@ public class DataMB implements Serializable {
         return select;
     }
 
-    public void setSelect(DataDisp select) {;
+    public void setSelect(DataDisp select) {
+        System.out.println(select.getId());
         this.select = select;
     }
 
@@ -163,6 +175,32 @@ public class DataMB implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
     }
 
+     public void uploadImage(FileUploadEvent event) {
+      UploadedFile file=event.getFile();
+      if(this.select!=null&&this.select.getData()!=null){
+          FileOutputStream outStream=null;
+          try {
+              File image=new File(file.getFileName());
+              byte[] buffer=file.getContents();
+              outStream = new FileOutputStream(image);
+              outStream.write(buffer);
+              this.ejbFacade.setImage(select, image);
+              outStream.close();
+          } catch (FileNotFoundException ex) {
+              Logger.getLogger(DataMB.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (IOException ex) {
+              Logger.getLogger(DataMB.class.getName()).log(Level.SEVERE, null, ex);
+          } finally {
+              try {
+                  outStream.close();
+              } catch (IOException ex) {
+                  Logger.getLogger(DataMB.class.getName()).log(Level.SEVERE, null, ex);
+              }
+          }
+      }
+      this.select = new DataDisp();
+    }
+    
     public Parameter getSelectedParameter() {
         return selectedParameter;
     }
@@ -213,4 +251,5 @@ public class DataMB implements Serializable {
             this.select.setTeam(team);
         }
     }
+
 }

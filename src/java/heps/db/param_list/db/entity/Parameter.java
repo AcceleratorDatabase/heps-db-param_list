@@ -151,7 +151,7 @@ public class Parameter implements Serializable {
 
     @Override
     public String toString() {
-        return "heps.db.param_list.entity.Parameter[ id=" + id + " ]";
+        return "heps.db.param_list.db.entity.Parameter[ id=" + id + " ]";
     }
     
 }

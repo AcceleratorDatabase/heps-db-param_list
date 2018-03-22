@@ -22,6 +22,8 @@ import heps.db.param_list.db.ejb.SystemFacade;
 import heps.db.param_list.db.ejb.TeamFacade;
 import heps.db.param_list.db.entity.Parameter;
 import heps.db.param_list.comman.tools.EmProvider;
+import static heps.db.param_list.db.ejb.DataFacade.em;
+import heps.db.param_list.db.entity.Reference;
 import java.io.File;
 import java.util.Date;
 
@@ -86,7 +88,7 @@ public class DataDispFacade {
                 if (data.getDatemodified() != null) {
                     dp.setChangeDate(data.getDatemodified());
                 }
-                
+
                 dp.setValue(data.getValue());
                 dp.setData(data);
                 dp.setId(data.getId().longValue());
@@ -99,17 +101,17 @@ public class DataDispFacade {
 
     public void edit(DataDisp dataDisp, String oldValue) {
         Data data = em.find(Data.class, dataDisp.getId().intValue());
-        Data newData=data;
+        Data newData = data;
         newData.setValue(dataDisp.getValue());
         if (new DataFacade().find(newData) == null) {
-            data.setValue(dataDisp.getValue());           
+            data.setValue(dataDisp.getValue());
             new HistoryDataFacade().setHistoryData(data, oldValue, new Date());
             new DataFacade().updateData(data);
-            
-        }else{
-           System.out.println("The value you input exists in the database.");
 
-        }      
+        } else {
+            System.out.println("The value you input exists in the database.");
+
+        }
     }
 
     public void add(DataDisp dataDisp, Parameter parameter) {
@@ -132,9 +134,11 @@ public class DataDispFacade {
         new DataFacade().deleteData(data);
 
     }
-    
-    public void setImage(DataDisp dataDisp,File image){
-        Data data=dataDisp.getData();
+
+    public void setImage(DataDisp dataDisp, File image) {
+        Data data = dataDisp.getData();
         new DataFacade().setImage(data, image);
     }
+
+    
 }

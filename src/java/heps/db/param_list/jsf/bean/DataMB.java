@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -27,10 +28,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpSession;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
@@ -50,8 +53,6 @@ public class DataMB implements Serializable {
     private DataDisp select;
     private Boolean isLogin;
     private Manager manager;
-
-
 
     public void validate() {
         System.out.println("++++" + manager.getName());
@@ -101,7 +102,8 @@ public class DataMB implements Serializable {
 
     @PostConstruct
     public void init() {
-        stateList = Arrays.asList(false, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+        stateList = Arrays.asList(false, true, true, true, true, true, true
+                , true, true, true, true, true, true, true, true,true);
         isLogin = false;
     }
 
@@ -120,7 +122,7 @@ public class DataMB implements Serializable {
 
     public void onToggle(ToggleEvent e) {
         System.out.println(e.getData());
-        if ((int) e.getData()!=0) {
+        if ((int) e.getData() != 0) {
             if (((int) e.getData() - 1) < stateList.size()) {
                 stateList.set((int) e.getData() - 1, e.getVisibility() == e.getVisibility().VISIBLE);
             }
@@ -165,8 +167,8 @@ public class DataMB implements Serializable {
                     }
                     this.dataDispList = ejbFacade.getDataDispList();
                     this.select = new DataDisp();
-                }else{
-                   msg = "You do not have the authority to delete this record!";
+                } else {
+                    msg = "You do not have the authority to delete this record!";
                 }
             } else {
                 msg = "You do not have the authority to delete this record!";
@@ -175,32 +177,34 @@ public class DataMB implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
     }
 
-     public void uploadImage(FileUploadEvent event) {
-      UploadedFile file=event.getFile();
-      if(this.select!=null&&this.select.getData()!=null){
-          FileOutputStream outStream=null;
-          try {
-              File image=new File(file.getFileName());
-              byte[] buffer=file.getContents();
-              outStream = new FileOutputStream(image);
-              outStream.write(buffer);
-              this.ejbFacade.setImage(select, image);
-              outStream.close();
-          } catch (FileNotFoundException ex) {
-              Logger.getLogger(DataMB.class.getName()).log(Level.SEVERE, null, ex);
-          } catch (IOException ex) {
-              Logger.getLogger(DataMB.class.getName()).log(Level.SEVERE, null, ex);
-          } finally {
-              try {
-                  outStream.close();
-              } catch (IOException ex) {
-                  Logger.getLogger(DataMB.class.getName()).log(Level.SEVERE, null, ex);
-              }
-          }
-      }
-      this.select = new DataDisp();
+    public void uploadImage(FileUploadEvent event) {
+        UploadedFile file = event.getFile();
+        if (this.select != null && this.select.getData() != null) {
+            FileOutputStream outStream = null;
+            try {
+                File image = new File(file.getFileName());
+                byte[] buffer = file.getContents();
+                outStream = new FileOutputStream(image);
+                outStream.write(buffer);
+                this.ejbFacade.setImage(select, image);
+                outStream.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DataMB.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(DataMB.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    outStream.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(DataMB.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        this.select = new DataDisp();
     }
+
     
+     
     public Parameter getSelectedParameter() {
         return selectedParameter;
     }

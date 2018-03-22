@@ -28,7 +28,7 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @ViewScoped
-public class FileUploadMB implements Serializable{
+public class FileUploadMB implements Serializable {
 
     /**
      * Creates a new instance of FileUploadMB
@@ -45,29 +45,35 @@ public class FileUploadMB implements Serializable{
         this.file = file;
     }
 
-    public void upload(FileUploadEvent event) throws FileNotFoundException, IOException {     
-        file=event.getFile();
-        HttpSession session=(HttpSession)(FacesContext.getCurrentInstance().getExternalContext().getSession(true));
-        String serverPath=session.getServletContext().getRealPath("/");
-        String parentPath=new File(serverPath).getParent();
-        String rootPath=new File(parentPath).getParent();
-        File realPath=new File(rootPath+"\\upload\\");
-        if(!realPath.exists()){
-           realPath.mkdirs();
-        }      
-       File saveFile=new File(realPath,file.getFileName());        
-        byte[] buffer=file.getContents();
-        FileOutputStream outStream=new FileOutputStream(saveFile);
-        outStream.write(buffer);
-        outStream.close();
-        if(saveFile!=null){
-            Workbook wb = ExcelTool.getWorkbook(saveFile);
-            ReadExcel readExcel = new ReadExcel(wb);
-            Data2DB db=new Data2DB(readExcel.getSheet(),saveFile);
-            db.allData2DB();
+    public void upload(FileUploadEvent event) {
+        file = event.getFile();
+        HttpSession session = (HttpSession) (FacesContext.getCurrentInstance().getExternalContext().getSession(true));
+        String serverPath = session.getServletContext().getRealPath("/");
+        String parentPath = new File(serverPath).getParent();
+        String rootPath = new File(parentPath).getParent();
+        File realPath = new File(rootPath + "\\upload\\");
+        if (!realPath.exists()) {
+            realPath.mkdirs();
         }
-        FacesMessage msg = new FacesMessage("Success!"," The parameter datas are imported into the database!");  
-        FacesContext.getCurrentInstance().addMessage(null, msg);     
+        File saveFile = new File(realPath, file.getFileName());
+        byte[] buffer = file.getContents();
+        try {
+            FileOutputStream outStream = new FileOutputStream(saveFile);
+            outStream.write(buffer);
+            outStream.close();
+            if (saveFile != null) {
+                Workbook wb = ExcelTool.getWorkbook(saveFile);
+                ReadExcel readExcel = new ReadExcel(wb);
+                Data2DB db = new Data2DB(readExcel.getSheet(), saveFile);
+                db.allData2DB();
+            }
+            FacesMessage msg = new FacesMessage("Success!", " The parameter datas are imported into the database!");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }catch(IOException e){
+            e.printStackTrace();
+            FacesMessage msg = new FacesMessage("Failed", " Uploading is failed.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
 }

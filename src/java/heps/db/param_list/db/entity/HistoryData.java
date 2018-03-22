@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "HistoryData.findAll", query = "SELECT h FROM HistoryData h")
     , @NamedQuery(name = "HistoryData.findById", query = "SELECT h FROM HistoryData h WHERE h.id = :id")
     , @NamedQuery(name = "HistoryData.findByValue", query = "SELECT h FROM HistoryData h WHERE h.value = :value")
-    , @NamedQuery(name = "HistoryData.findByDateModified", query = "SELECT h FROM HistoryData h WHERE h.dateModified = :dateModified")})
+    , @NamedQuery(name = "HistoryData.findByDateModified", query = "SELECT h FROM HistoryData h WHERE h.dateModified = :dateModified")
+    , @NamedQuery(name = "HistoryData.findByModifiedReference", query = "SELECT h FROM HistoryData h WHERE h.modifiedReference = :modifiedReference")})
 public class HistoryData implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,6 +50,9 @@ public class HistoryData implements Serializable {
     @Column(name = "date_modified")
     @Temporal(TemporalType.DATE)
     private Date dateModified;
+    @Size(max = 200)
+    @Column(name = "modified_reference")
+    private String modifiedReference;
     @JoinColumn(name = "data_id", referencedColumnName = "Id")
     @ManyToOne(optional = false)
     private Data dataId;
@@ -82,6 +86,14 @@ public class HistoryData implements Serializable {
 
     public void setDateModified(Date dateModified) {
         this.dateModified = dateModified;
+    }
+
+    public String getModifiedReference() {
+        return modifiedReference;
+    }
+
+    public void setModifiedReference(String modifiedReference) {
+        this.modifiedReference = modifiedReference;
     }
 
     public Data getDataId() {

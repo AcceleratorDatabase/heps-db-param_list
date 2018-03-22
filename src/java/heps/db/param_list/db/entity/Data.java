@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,7 +53,7 @@ public class Data implements Serializable {
     @Size(max = 200)
     @Column(name = "Value")
     private String value;
-    @Lob @Basic(fetch=LAZY)
+    @Lob
     @Column(name = "image")
     private byte[] image;
     @Column(name = "Date_modified")

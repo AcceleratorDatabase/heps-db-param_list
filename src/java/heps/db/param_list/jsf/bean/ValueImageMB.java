@@ -31,6 +31,7 @@ public class ValueImageMB implements Serializable {
     }
 
     public void putImage(DataDisp dataDisp) {
+        System.out.println("putImage..........");
         if (dataDisp != null) {
             int dataId = dataDisp.getId().intValue();
             Data data = ejbFacade.find(dataId);
@@ -43,20 +44,5 @@ public class ValueImageMB implements Serializable {
 
     public StreamedContent getImage() {
         return this.image;
-        /*FacesContext context = FacesContext.getCurrentInstance();
-        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
-            return new DefaultStreamedContent();
-        } else {
-            String dataId = context.getExternalContext().getRequestParameterMap().get("dataId");
-            System.out.println("***********"+dataId);
-            Data data = null;
-            if (dataId != null && (!"".equals(dataId))) {
-                data = ejbFacade.find(Integer.parseInt(dataId));
-                if(data.getImage()!=null)
-                    return new DefaultStreamedContent(new ByteArrayInputStream(data.getImage()));
-            }
-
-        }
-        return null;*/
     }
 }

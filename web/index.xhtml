@@ -86,16 +86,17 @@
                     </p:cellEditor> 
                 </p:column>
 
-                <p:column headerText="Image"  width="95">                  
-                    <p:commandButton value="Upload"   disabled="#{dataMB.isLogin==false}" style="width: 90px">
+                <!-- image column-->
+                <p:column headerText="Image" visible="#{dataMB.stateList[8]}">                  
+                    <p:commandButton icon="fa fa-upload"   disabled="#{dataMB.isLogin==false}" >
                         <p:ajax event="click" listener="#{dataMB.setSelect(data)}" oncomplete="PF('uploadImageDialog').show()" /> 
                     </p:commandButton>
-                    <p:commandButton value="View" style="width: 90px">
+                    <p:commandButton icon="fa fa-eye" >
                         <p:ajax event="click" listener="#{valueImageMB.putImage(data)}"  update=":viewImageForm"  oncomplete="PF('viewImageDialog').show()" />                 
                     </p:commandButton>
                 </p:column>
 
-                <p:column visible="#{dataMB.stateList[8]}">
+                <p:column visible="#{dataMB.stateList[9]}">
                     <f:facet name="header">
                         <h:outputText value="Change Date"/>
                     </f:facet>
@@ -103,45 +104,46 @@
                         <f:convertDateTime timeZone="GMT+8" pattern="yyyy/MM/dd" locale="zh"/>
                     </h:outputText>
                 </p:column>
-                <p:column visible="#{dataMB.stateList[9]}">
+                <p:column visible="#{dataMB.stateList[10]}">
                     <f:facet name="header">
                         <h:outputText value="Definition"/>
                     </f:facet>
                     <h:outputText value="#{data.definition}"/>               
                 </p:column>
-                <p:column visible="#{dataMB.stateList[10]}">
+                <p:column visible="#{dataMB.stateList[11]}">
                     <f:facet name="header">
                         <h:outputText value="Reference Title"/>
                     </f:facet>
                     <h:outputText value="#{data.referenceTitle}"/>               
                 </p:column>
-                <p:column visible="#{dataMB.stateList[11]}">
+
+                <p:column visible="#{dataMB.stateList[12]}">
                     <f:facet name="header">
                         <h:outputText value="Reference Author"/>
                     </f:facet>
                     <h:outputText value="#{data.referenceAuthor}"/>               
                 </p:column>
-                <p:column visible="#{dataMB.stateList[12]}">
+                <p:column visible="#{dataMB.stateList[13]}">
                     <f:facet name="header">
                         <h:outputText value="Reference Publication"/>
                     </f:facet>
                     <h:outputText value="#{data.referencePublication}"/>               
                 </p:column>
-                <p:column visible="#{dataMB.stateList[13]}">
+                <p:column visible="#{dataMB.stateList[14]}">
                     <f:facet name="header">
                         <h:outputText value="Reference URL"/>
                     </f:facet>
                     <h:outputText value="#{data.referenceURL}"/>               
                 </p:column>
-                <p:column visible="#{dataMB.stateList[14]}">
+                <p:column visible="#{dataMB.stateList[15]}">
                     <f:facet name="header">
                         <h:outputText value="Keyword"/>
                     </f:facet>
                     <h:outputText value="#{data.keyword}"/>               
                 </p:column>
-
-                <p:column headerText="" visible="#{dataMB.isLogin==true}" width="95">
-                    <p:commandButton value="Delete">
+                <!-- delete column-->
+                <p:column headerText="" visible="#{dataMB.isLogin==true}">
+                    <p:commandButton  icon="fa fa-remove">
                         <p:ajax event="click" listener="#{dataMB.setSelect(data)}" oncomplete="PF('delDialog').show()" /> 
                     </p:commandButton>
                 </p:column>
@@ -165,8 +167,18 @@
                             </h:outputText>
                         </p:column>
 
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Modified Reference"/>
+                            </f:facet>               
+                            <p:commandButton icon="fa fa-upload"    disabled="#{dataMB.isLogin==false}" >
+                                <p:ajax event="click" listener="#{refFileMB.setHistoryData(historyData)}" oncomplete="PF('saveRefDialog').show()"/> 
+                            </p:commandButton>
+                            <p:commandButton icon="fa fa-download" ajax="false"  actionListener="#{refFileMB.putRefFile(historyData)}" disabled="#{historyData.modifiedReference==null}">   
+                                <p:fileDownload value="#{refFileMB.refFile}"/>
+                            </p:commandButton>
 
-
+                        </p:column>
                     </p:dataTable>
                 </p:rowExpansion>                
             </p:dataTable>
@@ -268,19 +280,30 @@
                 <h:panelGrid cellpadding="10" columns="1" >  
                     <h:outputLabel value="Choose an Image:" style="font-size: 24px;color:royalblue"/>            
                     <p:fileUpload  fileUploadListener="#{dataMB.uploadImage}"   mode="advanced" 
+                                   invalidFileMessage="Please upload files of gif、jpe、jpg、png."
+                                   allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
                                    style="text-align: center; width: 600px; height: 100px; " />
                 </h:panelGrid>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="View the Image" widgetVar="viewImageDialog" modal="true" >
-             <h:form id="viewImageForm" >
-                 <p:graphicImage value="#{valueImageMB.image}" id="images">
-                   <!--  <f:param name="dataId" value="#{dataMB.select.id}"/>-->
-                 </p:graphicImage>
-             </h:form>
-         </p:dialog>
+        <p:dialog header="View the Image" widgetVar="viewImageDialog" modal="true"  width="600" height="300">
+            <h:form id="viewImageForm" >
+                <p:graphicImage value="#{valueImageMB.image}" id="images">
+                  <!--  <f:param name="dataId" value="#{dataMB.select.id}"/>-->
+                </p:graphicImage>
+            </h:form>
+        </p:dialog>
 
+        <p:dialog header="Save the Reference File" widgetVar="saveRefDialog" modal="true"  width="600" height="300">
+            <h:form id="saveRefForm">
+                <h:panelGrid cellpadding="10" columns="1" >  
+                    <h:outputLabel value="Choose a File:" style="font-size: 24px;color:royalblue"/>            
+                    <p:fileUpload  fileUploadListener="#{refFileMB.uploadRefFile}"   mode="advanced" 
+                                   style="text-align: center; width: 600px; height: 100px; " />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>
 

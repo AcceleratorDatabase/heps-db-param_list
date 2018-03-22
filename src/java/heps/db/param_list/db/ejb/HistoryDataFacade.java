@@ -5,10 +5,8 @@
  */
 package heps.db.param_list.db.ejb;
 
-import static heps.db.param_list.db.ejb.DataFacade.em;
 import heps.db.param_list.db.entity.Data;
 import heps.db.param_list.db.entity.HistoryData;
-import static heps.db.param_list.jsf.ejb.DataDispFacade.em;
 import heps.db.param_list.comman.tools.EmProvider;
 import java.util.Date;
 import java.util.List;
@@ -29,18 +27,45 @@ public class HistoryDataFacade {
         HistoryData historyData = new HistoryData();
         historyData.setDataId(dataId);
         historyData.setValue(value);
-        historyData.setDateModified(date_modified); 
+        historyData.setDateModified(date_modified);
         dataId.getHistoryDataList().add(historyData);
         dataId.setHistoryDataList(dataId.getHistoryDataList());
-        System.out.println("++++++"+historyData);
+        System.out.println("++++++" + historyData);
         em.getTransaction().begin();
-        em.persist(historyData); 
+        em.persist(historyData);
         em.flush();
         em.getTransaction().commit();
     }
-    public List<HistoryData> getHistoryData(){     
+
+    public List<HistoryData> getHistoryData() {
         Query q;
         q = em.createNamedQuery("HistoryData.findAll");
         return q.getResultList();
     }
+
+    public void setHisotryDataURL(HistoryData historyData, String fileName) {
+       if(historyData!=null){
+           historyData.setModifiedReference(fileName);      
+           em.getTransaction().begin();
+           em.merge(historyData);
+           em.getTransaction().commit();
+       }
+
+    }
+
+    /*
+    public void setRefURL(DataDisp dataDisp, String url) {
+        Data data = dataDisp.getData();
+        if (dataDisp.getParameterName() != null && (!"".equals(dataDisp.getParameterName()))) {
+            Parameter parameter = dataDisp.getData().getParameterid();
+            if (parameter.getReferenceid() != null) {
+                Reference reference = parameter.getReferenceid();
+                reference.setUrl(url);
+                em.getTransaction().begin();
+                em.merge(reference);
+                em.getTransaction().commit();
+            }
+        }
+    }
+    */
 }

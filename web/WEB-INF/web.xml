@@ -4,6 +4,18 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    <context-param>  
+        <param-name>primefaces.FONT_AWESOME</param-name>  
+        <param-value>true</param-value>  
+    </context-param>
+    <mime-mapping>  
+        <extension>woff2</extension>  
+        <mime-type>application/x-front-woff2</mime-type>         
+    </mime-mapping> 
+    <mime-mapping>  
+        <extension>woff</extension>  
+        <mime-type>application/x-front-woff</mime-type>         
+    </mime-mapping> 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -30,7 +42,7 @@
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/faces/index.xhtml</location>
     </error-page>
-     <error-page>
+    <error-page>
         <error-code>404</error-code>
         <location>/views/error/pageNotFound.xhtml</location>
     </error-page>
@@ -44,7 +56,7 @@
         <param-value>50</param-value>
     </context-param>
     
-     <filter>  
+    <filter>  
         <filter-name>PrimeFaces FileUpload Filter</filter-name>  
         <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>  
     </filter>          

@@ -42,7 +42,7 @@ public class ParameterFacade {
         p.setUnitid(unit);
         p.setDefinition(definition);
         p.setDatemodified(date_modified);
-        p.setReferenceid(reference);
+        p.setReferenceid(reference);       
         em.getTransaction().begin();
         em.persist(p);
         em.getTransaction().commit();

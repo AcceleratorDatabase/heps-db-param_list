@@ -50,7 +50,7 @@ public class Parameter implements Serializable {
     @Size(max = 45)
     @Column(name = "Name")
     private String name;
-    @Size(max = 100)
+    @Size(max = 500)
     @Column(name = "Definition")
     private String definition;
     @Column(name = "Date_modified")

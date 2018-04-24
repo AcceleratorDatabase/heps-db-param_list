@@ -17,18 +17,22 @@
                     <p:commandButton id="toggler" type="button" value="Choose Columns to View" style="float:left;color: blueviolet" icon="ui-icon-calculator" />
                     <p:commandButton value="Add a Record"  style="float:left;color:blueviolet" oncomplete="PF('addDialog').show()"   disabled= "#{dataMB.isLogin==false}"/>
                     <p:commandButton   value="Login" style="float:left;color: blueviolet" oncomplete="PF('logDialog').show()"/>
+                    <h:commandButton value="Export to XLS"  style="float:right;color:blueviolet">                     
+                       <p:dataExporter type="xls" target="datas" fileName="parameters"/>
+                    </h:commandButton>
                     <p:columnToggler datasource="datas" trigger="toggler">
                         <p:ajax event="toggle" listener="#{dataMB.onToggle}"/>                 			 
-                    </p:columnToggler>   
+                    </p:columnToggler>  
+                  
                 </f:facet>
                 <p:ajax event="cellEdit" listener="#{dataMB.cellEdit}" update=":paraForm:datas"/>   
 
-                <p:column style="width:10px">
+                <p:column style="width:10px" exportable="false">
                     <p:rowToggler> 
                     </p:rowToggler>      
                 </p:column>
 
-                <p:column visible="#{dataMB.stateList[0]}" >
+                <p:column visible="#{dataMB.stateList[0]}" exportable="false">
                     <f:facet name="header">
                         <h:outputText value="Id"/>
                     </f:facet>
@@ -87,7 +91,7 @@
                 </p:column>
 
                 <!-- image column-->
-                <p:column headerText="Image" visible="#{dataMB.stateList[8]}">                  
+                <p:column headerText="Image" visible="#{dataMB.stateList[8]}" exportable="false">                  
                     <p:commandButton icon="fa fa-upload"   disabled="#{dataMB.isLogin==false}" >
                         <p:ajax event="click" listener="#{dataMB.setSelect(data)}" oncomplete="PF('uploadImageDialog').show()" /> 
                     </p:commandButton>
@@ -142,7 +146,7 @@
                     <h:outputText value="#{data.keyword}"/>               
                 </p:column>
                 <!-- delete column-->
-                <p:column headerText="" visible="#{dataMB.isLogin==true}">
+                <p:column headerText="" visible="#{dataMB.isLogin==true}" exportable="false">
                     <p:commandButton  icon="fa fa-remove">
                         <p:ajax event="click" listener="#{dataMB.setSelect(data)}" oncomplete="PF('delDialog').show()" /> 
                     </p:commandButton>

@@ -63,13 +63,8 @@ public class ParameterFacade {
             return l.get(0);
         }
     }
-    public Parameter getParameterBy(String name, String unit, Date date_modified, String ref) {
+    public Parameter getParameterBy(String name, String unit, Date date_modified, String def, String ref) {
         Query q = null;
-        /*  q = em.createQuery("SELECT p FROM Parameter p WHERE p.name=:name "
-                + "AND p.unitid.name=:unit AND p.datemodified=:date_modified "
-                + "AND p.referenceid.title=:ref").setParameter("name", name)
-                .setParameter("unit", unit)
-                .setParameter("date_modified", date_modified).setParameter("ref", ref);*/
 
         StringBuilder sql = new StringBuilder("select * from parameter p where 1=1 ");
         if (name != null && (!"".equals(name))) {
@@ -77,14 +72,24 @@ public class ParameterFacade {
         }
         if (unit != null && (!"".equals(unit))) {
             sql.append(" and unit_id=" + new UnitFacade().getUnit(unit).getId());
+        }else{
+            sql.append(" and unit_id is null");
         }
         if (date_modified != null && (!"".equals(date_modified))) {
             LocalDate localDate = date_modified.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             date_modified = java.sql.Date.valueOf(localDate);
             sql.append(" and date_modified=" + "'" + date_modified + "'");
         }
+        
+        if (def != null && (!"".equals(def))) {
+           sql.append(" and definition=" + "'" + def + "'");
+        } else{
+            sql.append(" and definition is null");
+        }       
         if (ref != null && (!"".equals(ref))) {
             sql.append(" and reference_id=" + new ReferenceFacade().getReferenceByTitle(ref).getId());
+        }else{
+             sql.append(" and reference_id is null");
         }
         q = em.createNativeQuery(sql.toString(), Parameter.class);
 

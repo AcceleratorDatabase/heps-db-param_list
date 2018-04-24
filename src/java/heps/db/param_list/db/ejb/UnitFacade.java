@@ -41,6 +41,7 @@ public class UnitFacade {
     }
 
     public Unit getUnit(String name) {
+        if(name==null||("".equals(name))) return null;
         Query q;
         q = em.createNamedQuery("Unit.findByName").setParameter("name", name);
         List<Unit> l = q.getResultList();

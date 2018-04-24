@@ -59,11 +59,13 @@ public class ReadExcel {
                                     Date theDate = cell.getDateCellValue();
                                     SimpleDateFormat format = new SimpleDateFormat(DateFormat.dateFormat);
                                     val = format.format(theDate);
-                                   // System.out.println("*****"+val);
-                                } else {
-                                    DecimalFormat df = new DecimalFormat("0");
-                                    val = df.format(cell.getNumericCellValue());
+                                }else{
+                                    if(Math.abs(val3-val3.intValue())<Double.MIN_VALUE) {
+                                        DecimalFormat df = new DecimalFormat("0");
+                                        val=df.format(val3);
+                                    }
                                 }
+                                                                
                                 o = val;
                                 break;
                             case Cell.CELL_TYPE_BOOLEAN:

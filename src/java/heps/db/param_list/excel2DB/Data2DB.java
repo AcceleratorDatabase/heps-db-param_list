@@ -31,7 +31,6 @@ import java.util.logging.Logger;
 import org.apache.poi.ss.usermodel.Workbook;
 import heps.db.param_list.comman.constants.DateFormat;
 
-
 /**
  *
  * @author Lvhuihui
@@ -213,20 +212,22 @@ public class Data2DB {
         int dateCol = new ListTool(this.getDataList()).getColNum("date");
         int refCol = new ListTool(this.getDataList()).getColNum("title");
         ArrayList<Parameter> paraData = new ArrayList();
-        String name=null;
-        String unit=null;
-        String def=null;
-        Date date_mod=null;
-        String title=null;
+
         ParameterFacade pf = new ParameterFacade();
         Iterator it = this.getDataList().iterator();
         while (it.hasNext()) {
+            String name = null;
+            String unit = null;
+            String def = null;
+            Date date_mod = null;
+            String title = null;
+
             ArrayList a = (ArrayList) it.next();
             name = a.get(nameCol).toString();
             if (!name.toLowerCase().contains("parameter") && (!name.equals("参数名称"))) {
-                unit = a.get(unitCol).toString();
-                if(!"".equals(a.get(defCol).toString())) def = a.get(defCol).toString();
-                if (a.get(dateCol) != null && (!a.get(dateCol).equals(""))) {
+                if (!"".equals(a.get(unitCol))) unit = a.get(unitCol).toString();
+                if (!"".equals(a.get(defCol)))  def = a.get(defCol).toString();                              
+                if (!a.get(dateCol).equals("")) {
                     SimpleDateFormat format1 = new SimpleDateFormat(DateFormat.dateFormat);
                     try {
                         date_mod = format1.parse((String) a.get(dateCol));
@@ -234,8 +235,8 @@ public class Data2DB {
                         Logger.getLogger(Data2DB.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                title = a.get(refCol).toString();
-                if (pf.getParameterBy(name, unit, date_mod, title) == null) {
+                if (!"".equals(a.get(refCol)))  title = a.get(refCol).toString();
+                if (pf.getParameterBy(name, unit, date_mod, def, title) == null) {
                     Unit u = new UnitFacade().getUnit(unit);
                     Reference r = new ReferenceFacade().getReferenceByTitle(title);
                     pf.setParameter(name, u, def, date_mod, r);
@@ -253,6 +254,7 @@ public class Data2DB {
         int parmCol = new ListTool(this.getDataList()).getColNum("parameter");
         int unitCol = new ListTool(this.getDataList()).getColNum("unit");
         int dateCol = new ListTool(this.getDataList()).getColNum("date");
+        int defCol = new ListTool(this.getDataList()).getColNum("definition");
         int refCol = new ListTool(this.getDataList()).getColNum("title");
 
         String value = null;
@@ -261,18 +263,18 @@ public class Data2DB {
         String deviceType = null;
         Date date_mod = null;
         String att = null;
-
         String para = null;
+        String definition = null;
         String unit = null;
         String title = null;
 
         ArrayList<Data> dList = new ArrayList();
         DataFacade pf = new DataFacade();
-       
+
         Iterator it = this.getDataList().iterator();
         while (it.hasNext()) {
             ArrayList a = (ArrayList) it.next();
-            value = (String) a.get(valueCol);
+            value = (String) a.get(valueCol);          
             if (!value.toLowerCase().contains("data") && (!value.equals("参数值"))) {
                 system = (String) a.get(sysCol);
                 heps.db.param_list.db.entity.System sys = new SystemFacade().getSystem(system);
@@ -284,7 +286,7 @@ public class Data2DB {
                 if (a.get(dateCol) != null && (!"".equals(a.get(dateCol)))) {
                     try {
                         date_mod = format1.parse((String) a.get(dateCol));
-                       // System.out.println("*******"+date_mod);
+                        // System.out.println("*******"+date_mod);
                     } catch (ParseException ex) {
                         Logger.getLogger(Data2DB.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -295,8 +297,9 @@ public class Data2DB {
                 para = (String) a.get(parmCol);
                 unit = (String) a.get(unitCol);
                 title = (String) a.get(refCol);
-                Parameter parameter = new ParameterFacade().getParameterBy(para, unit,date_mod, title);
-               // System.out.println("++++++++"+date_mod);
+                definition = (String) a.get(defCol);
+                Parameter parameter = new ParameterFacade().getParameterBy(para, unit, date_mod, definition, title);
+                // System.out.println("++++++++"+date_mod);
                 pf.setData(value, null, sys, subsys, device, date_mod, attribute, parameter, null, null, null);
             }
         }

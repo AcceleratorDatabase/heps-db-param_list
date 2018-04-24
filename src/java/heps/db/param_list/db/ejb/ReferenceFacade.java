@@ -46,6 +46,7 @@ public class ReferenceFacade{
     }
 
     public Reference getReferenceByTitle(String title) {
+        if(title==null||("".equals(title))) return null;
         Query q;
         q = em.createNamedQuery("Reference.findByTitle").setParameter("title", title);
         List<Reference> l = q.getResultList();

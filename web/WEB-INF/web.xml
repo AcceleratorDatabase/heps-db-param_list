@@ -9,10 +9,10 @@ http://www.springmodules.org/schema/cache/springmodules-cache.xsd http://www.spr
         <param-name>primefaces.FONT_AWESOME</param-name>  
         <param-value>true</param-value>  
     </context-param>
-    <!--<mime-mapping>  
+    <mime-mapping>  
         <extension>woff2</extension>  
         <mime-type>application/x-front-woff2</mime-type>         
-    </mime-mapping> -->
+    </mime-mapping>
     <mime-mapping>  
         <extension>woff</extension>  
         <mime-type>application/x-front-woff</mime-type>         

@@ -9,7 +9,8 @@
     </h:head>
     <h:body>
         <h:form id="paraForm">
-            <p:dataTable id="datas" var="data" value="#{dataMB.dataDispList}" widgetVar="dt"  rowKey="#{data.id}" editable="#{dataMB.isLogin==true}" editMode="cell"    paginator="true" rows="20" sortMode="multiple" >
+            <p:dataTable id="datas" var="data" value="#{dataMB.dataList}" widgetVar="dt"  rowKey="#{data.id}" editable="#{dataMB.isLogin==true}" editMode="cell"    paginator="true" rows="20" sortMode="multiple" 
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,30">
                 <f:facet name="header">
                     <h:outputText value=" List of Parameter Values" style="font-size: 24px;color:royalblue"/>                                  
                 </f:facet>    
@@ -18,12 +19,12 @@
                     <p:commandButton value="Add a Record"  style="float:left;color:blueviolet" oncomplete="PF('addDialog').show()"   disabled= "#{dataMB.isLogin==false}"/>
                     <p:commandButton   value="Login" style="float:left;color: blueviolet" oncomplete="PF('logDialog').show()"/>
                     <h:commandButton value="Export to XLS"  style="float:right;color:blueviolet">                     
-                       <p:dataExporter type="xls" target="datas" fileName="parameters"/>
+                        <p:dataExporter type="xls" target="datas" fileName="parameters"/>
                     </h:commandButton>
                     <p:columnToggler datasource="datas" trigger="toggler">
                         <p:ajax event="toggle" listener="#{dataMB.onToggle}"/>                 			 
                     </p:columnToggler>  
-                  
+
                 </f:facet>
                 <p:ajax event="cellEdit" listener="#{dataMB.cellEdit}" update=":paraForm:datas"/>   
 
@@ -38,41 +39,41 @@
                     </f:facet>
                     <h:outputText value="#{data.id}"  />        
                 </p:column>
-                <p:column sortBy="#{data.system}" filterBy="#{data.system}" filterMatchMode="contains"  visible="#{dataMB.stateList[1]}">
+                <p:column sortBy="#{data.systemid.name}" filterBy="#{data.systemid.name}" filterMatchMode="contains"  visible="#{dataMB.stateList[1]}">
                     <f:facet name="header">
                         <h:outputText value="System"/>
                     </f:facet>
-                    <h:outputText value="#{data.system}"/>
+                    <h:outputText value="#{data.systemid.name}"/>
                 </p:column>
-                <p:column  sortBy="#{data.subsystem}" filterBy="#{data.subsystem}"  filterMatchMode="contains" visible="#{dataMB.stateList[2]}">
+                <p:column  sortBy="#{data.subsystemid.name}" filterBy="#{data.subsystemid.name}"  filterMatchMode="contains" visible="#{dataMB.stateList[2]}">
                     <f:facet name="header">
                         <h:outputText value="Subsystem"/>
                     </f:facet>
-                    <h:outputText value="#{subsystem}"/>
+                    <h:outputText value="#{data.subsystemid.name}"/>
                 </p:column>
-                <p:column filterBy="#{data.device}"  filterMatchMode="contains" visible="#{dataMB.stateList[3]}">
+                <p:column filterBy="#{data.devicetypeId.name}"  filterMatchMode="contains" visible="#{dataMB.stateList[3]}">
                     <f:facet name="header">
                         <h:outputText value="Device Type"/>
                     </f:facet>
-                    <h:outputText value="#{data.device}"/>
+                    <h:outputText value="#{data.devicetypeId.name}"/>
                 </p:column>
                 <p:column visible="#{dataMB.stateList[4]}">
                     <f:facet name="header">
                         <h:outputText value="Parameter Name"/>
                     </f:facet>
-                    <h:outputText value="#{data.parameterName}"/>               
+                    <h:outputText value="#{data.parameterid.name}"/>               
                 </p:column>
                 <p:column visible="#{dataMB.stateList[5]}">
                     <f:facet name="header">
                         <h:outputText value="Attribute"/>
                     </f:facet>
-                    <h:outputText value="#{data.attibute}"/>               
+                    <h:outputText value="#{data.attributeid.name}"/>               
                 </p:column>
                 <p:column visible="#{dataMB.stateList[6]}">
                     <f:facet name="header">
                         <h:outputText value="Unit"/>
                     </f:facet>
-                    <h:outputText value="#{data.unit}"/>               
+                    <h:outputText value="#{data.parameterid.unitid.name}"/>               
                 </p:column>
 
                 <p:column visible="#{dataMB.stateList[7]}">
@@ -104,7 +105,7 @@
                     <f:facet name="header">
                         <h:outputText value="Change Date"/>
                     </f:facet>
-                    <h:outputText value="#{data.changeDate}"> 
+                    <h:outputText value="#{data.datemodified}"> 
                         <f:convertDateTime timeZone="GMT+8" pattern="yyyy/MM/dd" locale="zh"/>
                     </h:outputText>
                 </p:column>
@@ -112,38 +113,38 @@
                     <f:facet name="header">
                         <h:outputText value="Definition"/>
                     </f:facet>
-                    <h:outputText value="#{data.definition}"/>               
+                    <h:outputText value="#{data.parameterid.definition}"/>               
                 </p:column>
                 <p:column visible="#{dataMB.stateList[11]}">
                     <f:facet name="header">
                         <h:outputText value="Reference Title"/>
                     </f:facet>
-                    <h:outputText value="#{data.referenceTitle}"/>               
+                    <h:outputText value="#{data.parameterid.referenceid.title}"/>               
                 </p:column>
 
                 <p:column visible="#{dataMB.stateList[12]}">
                     <f:facet name="header">
                         <h:outputText value="Reference Author"/>
                     </f:facet>
-                    <h:outputText value="#{data.referenceAuthor}"/>               
+                    <h:outputText value="#{data.parameterid.referenceid.author}"/>               
                 </p:column>
                 <p:column visible="#{dataMB.stateList[13]}">
                     <f:facet name="header">
                         <h:outputText value="Reference Publication"/>
                     </f:facet>
-                    <h:outputText value="#{data.referencePublication}"/>               
+                    <h:outputText value="#{data.parameterid.referenceid.publication}"/>               
                 </p:column>
                 <p:column visible="#{dataMB.stateList[14]}">
                     <f:facet name="header">
                         <h:outputText value="Reference URL"/>
                     </f:facet>
-                    <h:outputText value="#{data.referenceURL}"/>               
+                    <h:outputText value="#{data.parameterid.referenceid.url}"/>               
                 </p:column>
                 <p:column visible="#{dataMB.stateList[15]}">
                     <f:facet name="header">
                         <h:outputText value="Keyword"/>
                     </f:facet>
-                    <h:outputText value="#{data.keyword}"/>               
+                    <h:outputText value="#{data.parameterid.referenceid.keywords}"/>               
                 </p:column>
                 <!-- delete column-->
                 <p:column headerText="" visible="#{dataMB.isLogin==true}" exportable="false">
@@ -153,7 +154,7 @@
                 </p:column>
 
                 <p:rowExpansion id="expandedText">
-                    <p:dataTable id="historyValueDatas"  var="historyData" value="#{data.data.historyDataList}" style="width:400px"  paginator="true" rows="10">
+                    <p:dataTable id="historyDatas"  var="historyData" value="#{data.historyDataList}" style="width:400px"  paginator="true" rows="10">
 
                         <p:column>
                             <f:facet name="header">
@@ -188,66 +189,6 @@
             </p:dataTable>
         </h:form>
 
-        <p:dialog header="Add a New Record" widgetVar="addDialog" modal="true">
-            <h:form id="addForm">
-                <h:panelGrid columns="4" cellpadding="10" id="addPanel">
-                    <p:outputLabel value="System:" />
-                    <p:selectOneMenu value="#{dataMB.select.system}">                          
-                        <f:selectItem itemLabel="Select One" itemValue="" />    
-                        <p:ajax  listener="#{dataMB.systemSelect}" process="@this" />     
-                        <f:selectItems  value="#{systemMB.systemList}" var="systemList" itemLabel="#{systemList.name}" itemValue="#{systemList.name}"/>                                           
-                    </p:selectOneMenu>
-
-                    <p:outputLabel value="Subsystem:"  />
-                    <p:selectOneMenu value="#{dataMB.select.subsystem}">                          
-                        <f:selectItem itemLabel="Select One" itemValue=""/> 
-                        <p:ajax  listener="#{dataMB.subsystemSelect}" process="@this" />  
-                        <f:selectItems  value="#{subsystemMB.subsystemList}" var="subsystemList" itemLabel="#{subsystemList.name}" itemValue="#{subsystemList.name}"/>                                           
-                    </p:selectOneMenu>
-
-                    <p:outputLabel value="Device Type:"  />
-                    <p:selectOneMenu value="#{dataMB.select.device}">                          
-                        <f:selectItem itemLabel="Select One" itemValue="" /> 
-                        <p:ajax  listener="#{dataMB.devicetypeSelect}" process="@this" />  
-                        <f:selectItems  value="#{devicetypeMB.devicetypeList}" var="devicetypeList" itemLabel="#{devicetypeList.name}" itemValue="#{devicetypeList.name}"/>                                           
-                    </p:selectOneMenu>
-
-                    <p:outputLabel value="Parameter:"  />
-                    <p:selectOneMenu id="parameters" value="#{dataMB.selectedParameter.id}" required="true">     
-                        <!--<f:selectItem itemLabel="Select One" itemValue="" />-->        
-                        <p:ajax  listener="#{dataMB.parameterSelect}" process="@this" update="unit4parameter,def4parameter,ref4parameter"/>                       
-                        <f:selectItems  value="#{parameterMB.parameterList}" var="parameterList" itemLabel="#{parameterList.name}" itemValue="#{parameterList.id}"/>                                                                   
-                    </p:selectOneMenu>
-
-                    <p:outputLabel value="Attribute:"   />
-                    <p:selectOneMenu  value="#{dataMB.select.attibute}">                          
-                        <f:selectItem itemLabel="Select One" itemValue="" />   
-                        <p:ajax  listener="#{dataMB.attributeSelect}" process="@this" />  
-                        <f:selectItems  value="#{attributeMB.attributeList}" var="attributeList" itemLabel="#{attributeList.name}" itemValue="#{attributeList.name}"/>                                           
-                    </p:selectOneMenu>
-
-                    <p:outputLabel value="Team:" />
-                    <p:selectOneMenu value="#{dataMB.select.team}">                          
-                        <f:selectItem itemLabel="Select One" itemValue="" />    
-                        <p:ajax  listener="#{dataMB.teamSelect}" process="@this" />     
-                        <f:selectItems  value="#{teamMB.teamList}" var="teamList" itemLabel="#{teamList.name}" itemValue="#{teamList.name}"/>                                           
-                    </p:selectOneMenu>
-
-                    <p:outputLabel value="Unit:"  />
-                    <h:outputText id="unit4parameter" value="#{dataMB.selectedParameter.unitid.name}" />
-
-                    <p:outputLabel value="Definition:"  />
-                    <h:outputText id="def4parameter" value="#{dataMB.selectedParameter.definition}"/>
-
-                    <p:outputLabel value="Reference:"  />
-                    <h:outputText id="ref4parameter" value="#{dataMB.selectedParameter.referenceid.title}"/>
-
-                    <p:outputLabel value="Value:" />
-                    <p:inputText value="#{dataMB.select.value}" />
-                    <p:commandButton value="commit" oncomplete="PF('addDialog').hide()" actionListener="#{dataMB.add}" update=":paraForm:datas"/>
-                </h:panelGrid>
-            </h:form>
-        </p:dialog>
 
         <p:dialog header="Are you sure to delete the record?" widgetVar="delDialog" modal="true">
             <h:form id="delForm">
@@ -309,5 +250,54 @@
             </h:form>
         </p:dialog>
     </h:body>
+
+
+    <p:dialog header="Add a New Record" widgetVar="addDialog" modal="true" width="1000" height="300">
+        <h:form id="addForm">
+            <h:panelGrid columns="4" cellpadding="10" id="addPanel">
+                <p:outputLabel value="System:" />
+                <p:selectOneMenu value="#{dataMB.select.systemid}" converter="systemConverter" filter="true" filterMatchMode="startsWith">     
+                    <f:selectItem itemLabel="Select One" itemValue="" /> 
+                    <f:selectItems  value="#{systemMB.systemList}" var="selectsystem" itemLabel="#{selectsystem.name}" itemValue="#{selectsystem}"/>                                           
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Subsystem:" />
+                <p:selectOneMenu value="#{dataMB.select.subsystemid}" converter="subsystemConverter" filter="true" filterMatchMode="startsWith">                                               
+                    <f:selectItem itemLabel="Select One" itemValue="" /> 
+                    <f:selectItems  value="#{subsystemMB.subsystemList}" var="selectsubsystem" itemLabel="#{selectsubsystem.name}" itemValue="#{selectsubsystem}"/>                                           
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Devicetype:" />
+                <p:selectOneMenu value="#{dataMB.select.devicetypeId}" converter="devicetypeConverter" filter="true" filterMatchMode="startsWith">                                              
+                    <f:selectItem itemLabel="Select One" itemValue="" /> 
+                    <f:selectItems  value="#{devicetypeMB.devicetypeList}" var="selectdevicetype" itemLabel="#{selectdevicetype.name}" itemValue="#{selectdevicetype}"/>                                           
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Parameter:" />
+                <p:selectOneMenu value="#{dataMB.select.parameterid}" var="para" converter="parameterConverter">                                               
+                    <f:selectItems  value="#{parameterMB.parameterList}" var="selectparameter" itemLabel="#{selectparameter.name}-#{selectparameter.unitid.name}" itemValue="#{selectparameter}"/>  
+                    <p:column>
+                        #{para.name} -  #{para.unitid.name}
+                    </p:column>
+                </p:selectOneMenu>
+
+               <p:outputLabel value="Attribute:" />
+               <p:selectOneMenu value="#{dataMB.select.attributeid}" converter="attributeConverter" filter="true" filterMatchMode="startsWith">                                              
+                    <f:selectItem itemLabel="Select One" itemValue="" /> 
+                    <f:selectItems  value="#{attributeMB.attributeList}" var="selectattribute" itemLabel="#{selectattribute.name}" itemValue="#{selectattribute}"/>                                           
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Team:" />
+                <p:selectOneMenu value="#{dataMB.select.teamid}" converter="teamConverter" filter="true" filterMatchMode="startsWith">                          
+                    <f:selectItem itemLabel="Select One" itemValue="" />                         
+                    <f:selectItems  value="#{teamMB.teamList}" var="selectteam" itemLabel="#{selectteam.name}" itemValue="#{selectteam}"/>                                           
+                </p:selectOneMenu>
+                
+                 <p:outputLabel value="Value:" />
+                 <p:inputText value="#{dataMB.select.value}" />
+                 <p:commandButton value="commit" oncomplete="PF('addDialog').hide()" actionListener="#{dataMB.add}" update=":paraForm:datas"/>
+            </h:panelGrid>
+        </h:form>
+    </p:dialog>
 </html>
 

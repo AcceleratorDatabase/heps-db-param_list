@@ -7,7 +7,6 @@ package heps.db.param_list.jsf.bean;
 
 import heps.db.param_list.db.ejb.DataFacade;
 import heps.db.param_list.db.entity.Data;
-import heps.db.param_list.jsf.entity.DataDisp;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import javax.faces.bean.ApplicationScoped;
@@ -30,15 +29,12 @@ public class ValueImageMB implements Serializable {
         ejbFacade = new DataFacade();
     }
 
-    public void putImage(DataDisp dataDisp) {
+    public void putImage(Data data) {
         System.out.println("putImage..........");
-        if (dataDisp != null) {
-            int dataId = dataDisp.getId().intValue();
-            Data data = ejbFacade.find(dataId);
+        if (data != null) {            
             if (data.getImage() != null) {
                 image = new DefaultStreamedContent(new ByteArrayInputStream(data.getImage()));
             }
-
         }
     }
 

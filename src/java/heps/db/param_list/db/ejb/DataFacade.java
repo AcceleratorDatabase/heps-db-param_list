@@ -41,6 +41,12 @@ public class DataFacade {
     @PersistenceContext*/
     public static EntityManager em = EmProvider.getInstance().getEntityManagerFactory().createEntityManager();
 
+    public List<Data> getAllData(){
+        Query q;
+        q=em.createNamedQuery("Data.findAll");
+        return q.getResultList();
+    }
+    
     public void setData(String value, Team team, heps.db.param_list.db.entity.System system, Subsystem subsystem, Devicetype devicetype, Date date_modified, Attribute attribute,
             Parameter parameter, String comment, String status, Version version) {
         Data d = new Data();
@@ -57,6 +63,12 @@ public class DataFacade {
         d.setVersionid(version);
         em.getTransaction().begin();
         em.persist(d);
+        em.getTransaction().commit();
+    }
+    
+    public void setData(Data data){
+        em.getTransaction().begin();
+        em.persist(data);
         em.getTransaction().commit();
     }
 

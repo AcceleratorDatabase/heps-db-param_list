@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Data.findAll", query = "SELECT d FROM Data d")
     , @NamedQuery(name = "Data.findById", query = "SELECT d FROM Data d WHERE d.id = :id")
     , @NamedQuery(name = "Data.findByValue", query = "SELECT d FROM Data d WHERE d.value = :value")
+    , @NamedQuery(name = "Data.findByAcceptance", query = "SELECT d FROM Data d WHERE d.acceptance = :acceptance")
     , @NamedQuery(name = "Data.findByDatemodified", query = "SELECT d FROM Data d WHERE d.datemodified = :datemodified")
     , @NamedQuery(name = "Data.findByComment", query = "SELECT d FROM Data d WHERE d.comment = :comment")
     , @NamedQuery(name = "Data.findByStatus", query = "SELECT d FROM Data d WHERE d.status = :status")})
@@ -53,6 +54,9 @@ public class Data implements Serializable {
     @Size(max = 200)
     @Column(name = "Value")
     private String value;
+    @Size(max = 200)
+    @Column(name = "acceptance")
+    private String acceptance;
     @Lob
     @Column(name = "image")
     private byte[] image;
@@ -110,6 +114,14 @@ public class Data implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getAcceptance() {
+        return acceptance;
+    }
+
+    public void setAcceptance(String acceptance) {
+        this.acceptance = acceptance;
     }
 
     public byte[] getImage() {

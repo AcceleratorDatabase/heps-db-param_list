@@ -8,7 +8,7 @@
         <title>Parameter Data</title>
     </h:head>
     <h:body>
-        <h:form id="paraForm">
+        <h:form id="paraForm"  style="margin-top:50px;margin-left:50px;margin-right:50px">
             <p:dataTable id="datas" var="data" value="#{dataMB.dataList}" widgetVar="dt"  rowKey="#{data.id}" editable="#{dataMB.isLogin==true}" editMode="cell"    paginator="true" rows="20" sortMode="multiple" 
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,30">
                 <f:facet name="header">

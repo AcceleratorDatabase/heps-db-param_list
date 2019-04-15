@@ -17,7 +17,8 @@
                 <f:facet name="header">
                     <p:commandButton id="toggler" type="button" value="Choose Columns to View" style="float:left;color: blueviolet" icon="ui-icon-calculator" />
                     <p:commandButton value="Add a Record"  style="float:left;color:blueviolet" oncomplete="PF('addDialog').show()"   disabled= "#{dataMB.isLogin==false}"/>
-                    <p:commandButton   value="Login" style="float:left;color: blueviolet" oncomplete="PF('logDialog').show()"/>
+                    <p:commandButton   value="Login" style="float:left;color: blueviolet" oncomplete="PF('logDialog').show()"/> 
+                    <h:outputLink value="authorize" style="float:right;color: blue" target="_blank">OAuth Login</h:outputLink>
                     <h:commandButton value="Export to XLS"  style="float:right;color:blueviolet">                     
                         <p:dataExporter type="xls" target="datas" fileName="parameters"/>
                     </h:commandButton>
@@ -218,7 +219,7 @@
                     <p:commandButton value="close" onclick="PF('logDialog').hide()"/>
                 </h:panelGrid>
             </h:form>
-        </p:dialog>
+        </p:dialog> 
 
         <p:dialog header="Upload an Image" widgetVar="uploadImageDialog" modal="true" >
             <h:form id="uploadImageForm">

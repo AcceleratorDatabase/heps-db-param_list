@@ -40,7 +40,7 @@ public class Devicetype implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @Size(max = 45)
+  //  @Size(max = 45)
     @Column(name = "Name")
     private String name;
     @OneToMany(mappedBy = "devicetypeId")

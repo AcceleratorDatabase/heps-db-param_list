@@ -30,6 +30,7 @@ public class HistoryDataFacade {
         historyData.setDateModified(date_modified);
         dataId.getHistoryDataList().add(historyData);
         dataId.setHistoryDataList(dataId.getHistoryDataList());
+       // System.out.println("**********"+em.getProperties());
         em.getTransaction().begin();
         em.persist(historyData);
         em.flush();

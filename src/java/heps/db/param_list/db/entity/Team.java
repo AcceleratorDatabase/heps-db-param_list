@@ -45,7 +45,7 @@ public class Team implements Serializable {
     private Integer id;
     @Column(name = "Parent_id")
     private Integer parentid;
-    @Size(max = 45)
+   // @Size(max = 45)
     @Column(name = "Name")
     private String name;
     @OneToMany(mappedBy = "teamid")

@@ -44,19 +44,19 @@ public class Reference implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @Size(max = 45)
+   // @Size(max = 45)
     @Column(name = "Title")
     private String title;
-    @Size(max = 45)
+   // @Size(max = 45)
     @Column(name = "Author")
     private String author;
-    @Size(max = 45)
+  //  @Size(max = 45)
     @Column(name = "Publication")
     private String publication;
-    @Size(max = 45)
+ //   @Size(max = 45)
     @Column(name = "URL")
     private String url;
-    @Size(max = 45)
+//    @Size(max = 45)
     @Column(name = "Keywords")
     private String keywords;
     @OneToMany(mappedBy = "referenceid")

@@ -41,10 +41,10 @@ public class Manager implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @Size(max = 45)
+//    @Size(max = 45)
     @Column(name = "Name")
     private String name;
-    @Size(max = 45)
+ //   @Size(max = 45)
     @Column(name = "Password")
     private String password;
     @OneToMany(mappedBy = "managerid")

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="param_listPU" transaction-type="JTA">
-    <jta-data-source>jdbc/mysql-resource</jta-data-source>
+  <persistence-unit name="param_listPU" transaction-type="RESOURCE_LOCAL">
+    <jta-data-source>jdbc/parm-resource</jta-data-source>
     <class>heps.db.param_list.jsf.entity.DataDisp</class>
     <class>heps.db.param_list.db.entity.Accelerator</class>
     <class>heps.db.param_list.db.entity.Data</class>

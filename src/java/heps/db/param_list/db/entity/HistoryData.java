@@ -44,13 +44,13 @@ public class HistoryData implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @Size(max = 200)
+  //  @Size(max = 200)
     @Column(name = "value")
     private String value;
     @Column(name = "date_modified")
     @Temporal(TemporalType.DATE)
     private Date dateModified;
-    @Size(max = 200)
+ //   @Size(max = 200)
     @Column(name = "modified_reference")
     private String modifiedReference;
     @JoinColumn(name = "data_id", referencedColumnName = "Id")

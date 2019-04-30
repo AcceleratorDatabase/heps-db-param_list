@@ -51,10 +51,10 @@ public class Data implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @Size(max = 200)
+  //  @Size(max = 200)
     @Column(name = "Value")
     private String value;
-    @Size(max = 200)
+  //  @Size(max = 200)
     @Column(name = "acceptance")
     private String acceptance;
     @Lob
@@ -63,10 +63,10 @@ public class Data implements Serializable {
     @Column(name = "Date_modified")
     @Temporal(TemporalType.DATE)
     private Date datemodified;
-    @Size(max = 80)
+  //  @Size(max = 80)
     @Column(name = "Comment")
     private String comment;
-    @Size(max = 45)
+  //  @Size(max = 45)
     @Column(name = "Status")
     private String status;
     @JoinColumn(name = "Attribute_id", referencedColumnName = "Id")

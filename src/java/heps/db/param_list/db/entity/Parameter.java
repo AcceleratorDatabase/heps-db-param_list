@@ -47,10 +47,10 @@ public class Parameter implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @Size(max = 45)
+   // @Size(max = 45)
     @Column(name = "Name")
     private String name;
-    @Size(max = 500)
+ //   @Size(max = 500)
     @Column(name = "Definition")
     private String definition;
     @Column(name = "Date_modified")
